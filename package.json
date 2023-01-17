@@ -1,0 +1,23 @@
+{
+  "name": "CSC-main",
+  "description": "A minimal, distraction-free chat application based on Hazel Core and hack.chat.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Henrize",
+    "email": "mail@henrize.kim"
+  },
+  "contributors": [],
+  "license": "GNU General Public License v3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CrosSt-Chat/CSC-main.git"
+  },
+  "main": "./main.js",
+  "type": "module",
+  "dependencies": {
+    "ws": "^8.12.0"
+  },
+  "engines": {
+    "node": ">= 16.x.x"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "projectName": "CSC-backend",
+  "baseDir": "",
+  "hazel": {
+    "debuggingMode": true,
+    "moduleDirs": {
+      "initsDir": "/src/inits",
+      "functionsDir": "/src/functions",
+      "staticDir": "/src/static.js"
+    }
+  }
+}

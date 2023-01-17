@@ -1,0 +1,13 @@
+# Logs
+logs
+*.log
+*.log.txt
+
+# Dependency directories
+node_modules/
+package-lock.json
+
+# Customize
+.vscode
+
+# Security
