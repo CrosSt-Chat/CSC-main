@@ -4,9 +4,9 @@
   "hazel": {
     "debuggingMode": true,
     "moduleDirs": {
-      "initsDir": "/src/inits",
-      "functionsDir": "/src/functions",
-      "staticDir": "/src/static.js"
+      "initsDir": "/init",
+      "functionsDir": "/src",
+      "staticDir": "/boot.js"
     }
   }
 }
