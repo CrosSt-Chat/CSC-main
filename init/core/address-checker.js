@@ -110,10 +110,10 @@ export async function run(hazel, core, hold) {
     ipBinary += parseInt(ip[2]).toString(2).padStart(8, '0');
     ipBinary += parseInt(ip[3]).toString(2).padStart(8, '0');
 
-    return {
-      isAllowed: isInList(ipFirst, ipBinary, hold.allowCIDRlist),
-      isDenied: isInList(ipFirst, ipBinary, hold.denyCIDRlist)
-    }
+    return [
+      isInList(ipFirst, ipBinary, hold.allowCIDRlist),
+      isInList(ipFirst, ipBinary, hold.denyCIDRlist)
+    ];
   }
 
   core.allowCIDR = function(item) {

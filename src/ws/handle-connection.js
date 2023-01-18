@@ -5,6 +5,9 @@ export async function run( hazel, core, hold, socket, request) {
   // 获取客户端地址
   if (hazel.mainConfig.behindReverseProxy) {
     socket.remoteAddress = request.getHeader('x-forwarded-for');
+
+    // 十字街现在不用 CDN 所以不用这个玩意
+    // socket.remoteAddress = request.getHeader('x-forwarded-for').spilt(', ')[0];
   } else {
     socket.remoteAddress = request.connection.remoteAddress;
   }
@@ -21,11 +24,14 @@ export async function run( hazel, core, hold, socket, request) {
     return;
   };
 
+  // 检查该地址的 CIDR 是否在允许 / 禁止列表中
+  [socket.isAllowedIP, socket.isDeniedIP] = core.checkIP(socket.remoteAddress);
+
   /* 绑定 WebSocket 事件 */
   // message 事件
   socket.on('message', function (message) {
-    // 检查该地址是否请求频率过高
-    if (core.checkAddress(socket.remoteAddress, 1)) {
+    // 检查该地址是否请求频率过高或在 CIDR 禁止列表中
+    if (core.checkAddress(socket.remoteAddress, 1) || socket.isDeniedIP) {
       // 防止在短时间内发送大量数据时程序占用过高，直接回复处理好的警告消息
       socket.send('{"cmd":"warn","warn":"您的操作过于频繁或被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
       return;
@@ -85,7 +91,8 @@ export async function run( hazel, core, hold, socket, request) {
   socket.on('error', (error) => { hazel.emit('error', error, socket); });
 
   /* 结束部分 */
-  // hold.wsServer._server._connections 为当前连接数
+  // 记录日志
+  core.log(core.LOG_LEVEL.LOG, ['New connection from', socket.remoteAddress, 'isAllowedIP:', socket.isAllowedIP, 'isDeniedIP:', socket.isDeniedIP]);
 
   // 计入全局频率
   core.increaseGlobalRate();
