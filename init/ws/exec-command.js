@@ -12,7 +12,7 @@ export async function run(hazel, core, hold) {
       core.replyWarn(socket, '未知命令，请查阅帮助文档。');
     }
 
-    if (!command.moduleType.startsWith('ws-command')) {
+    if (!command.moduleType === 'ws-command') {
       core.replyWarn(socket, '未知命令，请查阅帮助文档。');
     }
 
