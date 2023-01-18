@@ -1,3 +1,5 @@
+// 用于处理新的 WebSocket 连接
+
 export async function run( hazel, core, hold, socket, request) {
   /* 前置检查 */
   // 获取客户端地址
@@ -82,6 +84,7 @@ export async function run( hazel, core, hold, socket, request) {
   socket.on('error', (error) => { hazel.emit('error', error, socket); });
 
   /* 结束部分 */
+  console.log(hold.wsServer);
 
   // 计入全局频率
   core.increaseGlobalRate();
