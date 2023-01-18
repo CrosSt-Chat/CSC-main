@@ -65,8 +65,8 @@ export async function run( hazel, core, hold, socket, request) {
     let allowedCommandsBoforeJoin = ['join', 'info', 'ping'];
     if (typeof socket.channel === 'undefined' && !allowedCommandsBoforeJoin.includes(message.cmd)) { return; }
 
-    // to-do: 尝试运行命令
-    // core.execCommand(message, socket);
+    // 尝试运行命令
+    core.execCommand(socket, message);
 
     // 计入全局频率
     core.increaseGlobalRate();
@@ -84,7 +84,7 @@ export async function run( hazel, core, hold, socket, request) {
   socket.on('error', (error) => { hazel.emit('error', error, socket); });
 
   /* 结束部分 */
-  console.log(hold.wsServer);
+  // hold.wsServer._server._connections 为当前连接数
 
   // 计入全局频率
   core.increaseGlobalRate();

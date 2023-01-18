@@ -11,6 +11,17 @@ export async function run( hazel, core, hold ) {
     }
     return output;
   }
+
+  // 从数组中删除指定元素
+  core.removeFromArray = function ( array, element ) {
+    let index = array.indexOf( element );
+    if ( index > -1 ) {
+      array.splice( index, 1 );
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 export const priority = 1
