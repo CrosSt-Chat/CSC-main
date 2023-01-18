@@ -9,18 +9,28 @@ export async function run(hazel, core, hold) {
 
     // 如果命令不存在，或者不公开，提示命令不存在
     if (typeof command == 'undefined') {
-      // to-do: 发送命令不存在的消息
+      core.replyWarn(socket, '未知命令，请查阅帮助文档。');
     }
 
     if (!command.moduleType.startsWith('ws-command')) {
-      // to-do: 发送命令不存在的消息
+      core.replyWarn(socket, '未知命令，请查阅帮助文档。');
+    }
+
+    // 检查命令的参数是否齐全
+    if (command.requiredData.length > 0) {
+      for (let attr of command.requiredData) {
+        if (typeof payload[attr] == 'undefined') {
+          core.replyWarn(socket, '参数缺失，请查阅帮助文档。');
+          return;
+        }
+      }
     }
 
     // 运行命令
     try {
       await command.run(hazel, core, hold, socket, payload);
     } catch (error) {
-      // to-do: 发送命令运行错误的消息
+      core.replyWarn(socket, '命令运行时发生错误。');
       hazel.emit('error', error, socket);
     }
   }

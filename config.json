@@ -15,5 +15,6 @@
     "behindReverseProxy": false,
     "requestTimeout": 10000
   },
-  "appConfigDir": "/config/config.json"
+  "appConfigDir": "/config/config.json",
+  "allowCIDRlistDir": "/config/allow.txt"
 }

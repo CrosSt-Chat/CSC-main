@@ -35,4 +35,12 @@ export default async function (hazel, core, hold) {
   // 频率限制器用
   hold.rateRecords = {};
   hold.perviousRate = 1000;
+
+  // 保存一些服务器的运行数据
+  hold.stats = {};
+
+  // CIDR 列表
+  hold.allowCIDRlist = [];
+  hold.denyCIDRlist = [];
+  core.loadAllowCIDR();
 };

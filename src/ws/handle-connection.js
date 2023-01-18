@@ -26,7 +26,8 @@ export async function run( hazel, core, hold, socket, request) {
   socket.on('message', function (message) {
     // 检查该地址是否请求频率过高
     if (core.checkAddress(socket.remoteAddress, 1)) {
-      // to-do: 发送警告信息
+      // 防止在短时间内发送大量数据时程序占用过高，直接回复处理好的警告消息
+      socket.send('{"cmd":"warn","warn":"您的操作过于频繁或被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
       return;
     };
 
