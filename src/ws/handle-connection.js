@@ -69,7 +69,7 @@ export async function run( hazel, core, hold, socket, request) {
     if (!message.cmd) { return; } // 消息必须有 cmd 属性
     
     // 如果用户没有加入任何聊天室，且不是加入聊天室前允许执行的命令，则忽略
-    let allowedCommandsBoforeJoin = ['join', 'info', 'ping'];
+    let allowedCommandsBoforeJoin = ['join', 'getinfo', 'ping'];
     if (typeof socket.channel === 'undefined' && !allowedCommandsBoforeJoin.includes(message.cmd)) { return; }
 
     // 尝试运行命令

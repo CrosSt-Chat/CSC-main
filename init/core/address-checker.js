@@ -58,7 +58,6 @@ export async function run(hazel, core, hold) {
     let rawCIDRlist;
     try {
       rawCIDRlist = readFileSync(join(hazel.mainConfig.baseDir, hazel.mainConfig.allowCIDRlistDir), {encoding: 'utf-8'});
-      initAllowCIDR(hold.allowCIDRlist, rawCIDRlist);
     } catch (error) {
       hazel.emit('error', error);
     }

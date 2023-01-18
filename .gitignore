@@ -1,7 +1,5 @@
 # Logs
-logs
-*.log
-*.log.txt
+logs/*
 
 # Dependency directories
 node_modules/

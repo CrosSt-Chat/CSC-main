@@ -1,6 +1,6 @@
 {
   "projectName": "CSC-backend",
-  "port": 3000,
+  "port": 2764,
   "baseDir": "",
   "hazel": {
     "debuggingMode": true,
