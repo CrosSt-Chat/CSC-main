@@ -14,11 +14,11 @@ export async function run( hazel, core, hold ) {
       }
     }
 
-    hold.rateRecords[remoteAddress].score *= Math.pow(2, -(Date.now() - hold.rateRecords[remoteAddress].lastRateTime) / core.dConfig.rateLimiter.halfScoreTime);
+    hold.rateRecords[remoteAddress].score *= Math.pow(2, -(Date.now() - hold.rateRecords[remoteAddress].lastRateTime) / core.config.rateLimiter.halfScoreTime);
     hold.rateRecords[remoteAddress].score += score;
     hold.rateRecords[remoteAddress].lastRateTime = Date.now();
 
-    if (hold.rateRecords[remoteAddress].score >= core.dConfig.rateLimiter.limit) {
+    if (hold.rateRecords[remoteAddress].score >= core.config.rateLimiter.limit) {
       return true;
     }
 
@@ -29,10 +29,10 @@ export async function run( hazel, core, hold ) {
   core.increaseGlobalRate = function () {
     let thisTime = Date.now();
   
-    if ( thisTime - lastRateTime >= core.dConfig.rateLimiter.globalTimeRange ) {
+    if ( thisTime - lastRateTime >= core.config.rateLimiter.globalTimeRange ) {
       hold.perviousRate = 60000;
     } else {
-      hold.perviousRate = ( core.dConfig.rateLimiter.globalTimeRange * hold.perviousRate ) / ( core.dConfig.rateLimiter.globalTimeRange - ( thisTime - lastRateTime) + hold.perviousRate );
+      hold.perviousRate = ( core.config.rateLimiter.globalTimeRange * hold.perviousRate ) / ( core.config.rateLimiter.globalTimeRange - ( thisTime - lastRateTime) + hold.perviousRate );
     }
   
     lastRateTime = thisTime;
@@ -42,7 +42,7 @@ export async function run( hazel, core, hold ) {
 
   // 返回服务器的估计全局频率 单位：次每分钟
   core.getFrequency = function () {
-    return ( core.dConfig.rateLimiter.globalTimeRange * core.dConfig.rateLimiter.globalTimeRange) / ( hold.perviousRate * 60000 );
+    return ( core.config.rateLimiter.globalTimeRange * core.config.rateLimiter.globalTimeRange) / ( hold.perviousRate * 60000 );
   }
 }
 

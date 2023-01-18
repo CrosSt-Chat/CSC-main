@@ -1,0 +1,19 @@
+{
+  "version": "1.2.9",
+  "rootPass": "PASSWORD",
+  "dataMaximumLength": 32768,
+  "rateLimiter": {
+    "globalTimeRange": 10000,
+    "halfScoreTime": 3000,
+    "limit": 20
+  },
+  "alertFrequency": 180,
+  "sitePolicy": {},
+  "salts": {
+    "trip": "TEMPORARYSALT",
+    "auth": "TEMPORARYSALT",
+    "client": "TEMPORARYSALT",
+    "bot": "TEMPORARYSALT"
+  },
+  "logLevel": 0
+}

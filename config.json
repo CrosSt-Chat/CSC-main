@@ -15,5 +15,5 @@
     "behindReverseProxy": false,
     "requestTimeout": 10000
   },
-  "dynamicConfigDir": "/config/config.json"
+  "appConfigDir": "/config/config.json"
 }
