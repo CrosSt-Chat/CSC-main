@@ -30,7 +30,7 @@ export async function run( hazel, core, hold, socket, request) {
 
   // 初始化 socket 的一些属性
   socket.level = 0;
-  socket.uType = 'GUEST';
+  socket.permission = 'GUEST';
 
   /* 绑定 WebSocket 事件 */
   // message 事件

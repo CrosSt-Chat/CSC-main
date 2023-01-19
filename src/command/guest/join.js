@@ -20,7 +20,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 用户信息模板
   const userInfo = {
     nick: '',
-    uType: 'USER',
+    permission: 'USER',
     trip: null,
     level: core.config.level.user,
     invisible: false
@@ -76,10 +76,10 @@ export async function run(hazel, core, hold, socket, data) {
   // 判断用户是否为成员 / 管理员
   if (typeof data.password == 'string') {
     if ( core.config.adminList.includes(userInfo.trip)) {
-      userInfo.uType = 'ADMIN';
+      userInfo.permission = 'ADMIN';
       userInfo.level = core.config.level.admin;
     } else if (core.config.memberList.includes(userInfo.trip)) {
-      userInfo.uType = 'MEMBER';
+      userInfo.permission = 'MEMBER';
       userInfo.level = core.config.level.member;
     }
   }
@@ -179,7 +179,7 @@ export async function run(hazel, core, hold, socket, data) {
       cmd: 'onlineAdd',
       nick: userInfo.nick,
       trip: userInfo.trip || ' ',
-      utype: userInfo.uType,
+      utype: userInfo.permission,
       level: userInfo.level,
       client: cName,
       channel: data.channel
@@ -189,7 +189,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 保存用户信息
   socket.nick = userInfo.nick;
   socket.trip = userInfo.trip;
-  socket.uType = userInfo.uType;
+  socket.permission = userInfo.permission;
   socket.level = userInfo.level;
   socket.channel = data.channel;
   socket.invisible = userInfo.invisible;
@@ -202,9 +202,9 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 写入存档
   if (userInfo.trip != null) {
-    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.uType + ')[' + userInfo.trip + ']' + userInfo.nick + ' ' + data.channel);
+    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.permission + ')[' + userInfo.trip + ']' + userInfo.nick + ' ' + data.channel);
   } else {
-    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.uType + ')' + userInfo.nick + ' ' + data.channel);
+    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.permission + ')' + userInfo.nick + ' ' + data.channel);
   }
 }
 

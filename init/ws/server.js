@@ -14,8 +14,9 @@ export async function run(hazel, core, hold) {
 
   // 寻找符合条件的 socket
   // 本函数高度来源于 https://github.com/hack-chat/main/blob/master/server/src/serverLib/MainServer.js#L353
-  // 功能太强一般用不到
-  core.findSockets = function (filter) {
+  // 功能太强一般用不到，先注释掉
+  /*
+  core.hackchatFindSockets = function (filter) {
     const filterAttrs = Object.keys(filter);
     const reqCount = filterAttrs.length;
     let curMatch = 0;
@@ -62,9 +63,10 @@ export async function run(hazel, core, hold) {
 
     return matches;
   }
+  */
 
-  // core.findSockets 的简化版，只能使用属性为字符串的过滤器
-  core.findSocketSimplified = function (filter) {
+  // 使用属性为字符串的过滤条件查找 socket
+  core.findSocket = function (filter) {
     let attrCount = Object.keys(filter).length;
     let curMatch = 0;
     let matches = [];
@@ -83,7 +85,7 @@ export async function run(hazel, core, hold) {
     return matches;
   }
 
-  // core.findSockets 的极简版，只能使用一个属性进行过滤
+  // 使用一个属性作为过滤条件查找 socket
   core.findSocketTiny = function (attr, value) {
     let matches = [];
     hold.wsServer.clients.forEach((socket) => {

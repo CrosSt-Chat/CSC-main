@@ -57,7 +57,7 @@ export async function run(hazel, core, hold, socket, data) {
       type: 'chat',
       nick: socket.nick,
       trip: socket.trip,
-      utype: socket.uType,
+      utype: socket.permission,
       member: (socket.level >= core.config.level.member),
       admin: (socket.level >= core.config.level.admin),
       text: data.text
@@ -67,7 +67,7 @@ export async function run(hazel, core, hold, socket, data) {
       cmd: 'chat',
       type: 'chat',
       nick: socket.nick,
-      utype: socket.uType,
+      utype: socket.permission,
       text: data.text
     }, hold.channel[socket.channel].socketList);
   }

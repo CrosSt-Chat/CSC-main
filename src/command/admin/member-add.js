@@ -25,10 +25,10 @@ export async function run(hazel, core, hold, socket, data) {
   core.saveConfig();
 
   // 查找成员的 socket，如果存在则更新权限
-  let matchSockets = core.findSocketSimplified({ trip: data.trip });
+  let matchSockets = core.findSocketTiny('trip', data.trip);
   if (matchSockets.length > 0) {
     matchSockets.forEach((matchSocket) => {
-      matchSocket.uType = 'MEMBER';
+      matchSocket.permission = 'MEMBER';
       matchSocket.level = core.config.level.member;
 
       // 向成员发送消息
