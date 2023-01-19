@@ -47,7 +47,7 @@ export async function run(hazel, core, hold, socket, data) {
       server.reply({
         cmd: 'infoInvalid',
       },socket);
-      socket.terminate();
+      socket.close();
       return;
     }
 
@@ -128,29 +128,25 @@ export async function run(hazel, core, hold, socket, data) {
     // 如果用户是成员，则允许进入
     if (userInfo.level < core.config.level.member) {
       core.replyWarn('## 非常抱歉，该聊天室已锁定，即暂时禁止非成员进入。\n**可能的原因：**\n\\* 为提供更好的服务体验，十字街的 ?公共聊天室 一般会在深夜（北京时间）锁定。\n\\* 这个聊天室出现了大量且难以控制的违规行为，暂时锁定以维持秩序。\n**您可以尝试：**\n\\* 如果您是成员，请使用您的密码重新加入这个聊天室。\n\\* 暂时使用十字街的其它聊天室。\n\\* 一段时间后再来尝试加入本聊天室。', socket);
-      socket.terminate();
+      socket.close();
       return;
     }
   }
 
-  // 检查用户昵称是否和其他用户重复
-  let isNickDuplicated = false;
-  hold.channel[data.channel].socketList.forEach((item) => {
-    if (item.nick.toLowerCase() == userInfo.nick.toLowerCase()) {
-      isNickDuplicated = true;
-    }
-  });
-  if (isNickDuplicated) {
-    core.replyWarn('已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
-    socket.close();
-    return;
-  }
-
   // 生成用户列表
-  let nicks = [];
+  let channelNicks = [];
   hold.channel[data.channel].socketList.forEach((item) => {
     if(!item.invisible) {
-      nicks.push(item.nick);
+      channelNicks.push(item.nick);
+    }
+  });
+
+  // 检查用户昵称是否和其他用户重复
+  channelNicks.forEach((item) => {
+    if (item.toLowerCase() == data.nick.toLowerCase()) {
+      core.replyWarn('已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
+      socket.close();
+      return;
     }
   });
 
@@ -160,7 +156,7 @@ export async function run(hazel, core, hold, socket, data) {
     hash.update(userInfo.trip + core.config.salts.auth, 'base64');
     core.reply({
       cmd: 'onlineSet',
-      nicks,
+      nicks: channelNicks,
       trip: userInfo.trip,
       key: hash.digest('base64').slice(0, 32),
       ver: core.config.verText
@@ -168,7 +164,7 @@ export async function run(hazel, core, hold, socket, data) {
   } else {
     core.reply({
       cmd: 'onlineSet',
-      nicks,
+      nicks: channelNicks,
       ver: core.config.verText
     }, socket);
   }
