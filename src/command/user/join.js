@@ -193,7 +193,7 @@ export async function run(hazel, core, hold, socket, data) {
   socket.level = userInfo.level;
   socket.channel = data.channel;
   socket.invisible = userInfo.invisible;
-  
+
   // 将 socket 对象添加到聊天室的 socketList 中
   hold.channel[data.channel].socketList.add(socket);
 
@@ -206,8 +206,6 @@ export async function run(hazel, core, hold, socket, data) {
   } else {
     core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.uType + ')' + userInfo.nick + ' ' + data.channel);
   }
-
-  return true;
 }
 
 export const name = 'join';

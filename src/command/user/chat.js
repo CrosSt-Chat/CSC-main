@@ -1,3 +1,4 @@
+// 用于处理用户发送的聊天消息
 export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数（好像没必要）
   // core.checkAddress(socket.remoteAddress, 0);
@@ -5,6 +6,37 @@ export async function run(hazel, core, hold, socket, data) {
   // 如果是超长消息，进行频率限制
   if (data.length > 128) {
     core.checkAddress(socket.remoteAddress, 12);
+  }
+
+  // 如果消息以 / 开头，视为命令
+  if (data.text[0] == '/') {
+    // 查找命令是否存在且支持使用聊天框运行
+    let command = hazel.loadedFunctions.get(data.text.slice(1, data.text.indexOf(' ')));
+
+    // 如果命令不存在、不公开、权限不足，视为返回命令格式错误
+    if (typeof command == 'undefined') {
+      core.replyUnknownCommand(socket);
+      return;
+    }
+
+    if ((!command.moduleType === 'ws-command') || typeof command.execByChat != 'function') {
+      core.replyUnknownCommand(socket);
+      return;
+    }
+
+    if (command.requiredLevel > socket.level) {
+      core.replyUnknownCommand(socket);
+      return;
+    }
+
+    // 运行命令
+    try {
+      await command.execByChat(hazel, core, hold, socket, data.text);
+    } catch (error) {
+      hazel.emit('error', error, socket);
+    }
+
+    return;
   }
 
   // 去除首尾空格
@@ -39,6 +71,12 @@ export async function run(hazel, core, hold, socket, data) {
       text: data.text
     }, hold.channel[socket.channel].socketList);
   }
+
+  // 记录 stats
+  core.increaseState('messages-sent');
+
+  // 写入存档
+  core.archive('MSG', socket, data.text);
 }
 
 export const name = 'chat';
