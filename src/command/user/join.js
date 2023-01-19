@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 
 export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数
-  core.checkAddress(socket.remoteAddress, 8);
+  core.checkAddress(socket.remoteAddress, 0);
 
   // 如果用户已经加入了聊天室，则不处理
   if (typeof socket.channel != 'undefined') { return; }
@@ -13,7 +13,7 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 检查聊天室名称是否合法
   if (!core.verifyChannel(data.channel)) {
-    server.reply({cmd: 'warn', text: '聊天室名称应当仅由汉字、字母和数字组成，并不超过 20 个字符。'}, socket);
+    core.replyWarn('CHANNEL_NAME_INVALID', '聊天室名称应当仅由汉字、字母和数字组成，并不超过 20 个字符。', socket);
     return;
   }
 
@@ -44,9 +44,9 @@ export async function run(hazel, core, hold, socket, data) {
       return hash.digest('base64').slice(0, 32) == data.key;
     })()) {
       // 如果验证失败，则返回错误信息
-      server.reply({
+      core.reply({
         cmd: 'infoInvalid',
-      },socket);
+      }, socket);
       socket.close();
       return;
     }
@@ -58,7 +58,7 @@ export async function run(hazel, core, hold, socket, data) {
     // 如果用户提供了密码，则使用密码生成 trip
     // 先检查昵称
     if (!core.verifyNickname(data.nick)) {
-      server.reply({cmd: 'warn', text: '昵称应当仅由汉字、字母、数字和不超过 3 个的特殊字符（_-+.:;）组成，而且不能太长。'}, socket);
+      core.replyWarn('NICKNAME_INVALID', '昵称应当仅由汉字、字母、数字和不超过 3 个的特殊字符（_-+.:;）组成，而且不能太长。', socket);
       return;
     }
 
@@ -127,7 +127,7 @@ export async function run(hazel, core, hold, socket, data) {
   if (hold.channel[data.channel].isLocked || hold.lockAllChannels) {
     // 如果用户是成员，则允许进入
     if (userInfo.level < core.config.level.member) {
-      core.replyWarn('## 非常抱歉，该聊天室已锁定，即暂时禁止非成员进入。\n**可能的原因：**\n\\* 为提供更好的服务体验，十字街的 ?公共聊天室 一般会在深夜（北京时间）锁定。\n\\* 这个聊天室出现了大量且难以控制的违规行为，暂时锁定以维持秩序。\n**您可以尝试：**\n\\* 如果您是成员，请使用您的密码重新加入这个聊天室。\n\\* 暂时使用十字街的其它聊天室。\n\\* 一段时间后再来尝试加入本聊天室。', socket);
+      core.replyWarn('CHANNEL_LOCKED', '## 非常抱歉，该聊天室已锁定，即暂时禁止非成员进入。\n**可能的原因：**\n\\* 为提供更好的服务体验，十字街的 ?公共聊天室 一般会在深夜（北京时间）锁定。\n\\* 这个聊天室出现了大量且难以控制的违规行为，暂时锁定以维持秩序。\n**您可以尝试：**\n\\* 如果您是成员，请使用您的密码重新加入这个聊天室。\n\\* 暂时使用十字街的其它聊天室。\n\\* 一段时间后再来尝试加入本聊天室。', socket);
       socket.close();
       return;
     }
@@ -144,7 +144,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 检查用户昵称是否和其他用户重复
   channelNicks.forEach((item) => {
     if (item.toLowerCase() == data.nick.toLowerCase()) {
-      core.replyWarn('已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
+      core.replyWarn('NICKNAME_DUPLICATE', '已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
       socket.close();
       return;
     }

@@ -22,7 +22,7 @@ export async function run(hazel, core, hold) {
     if (command.requiredData.length > 0) {
       for (let attr of command.requiredData) {
         if (typeof payload[attr] == 'undefined') {
-          core.replyWarn('参数缺失，请查阅帮助文档。', socket);
+          core.replyUnknownCommand(socket);
           return;
         }
       }

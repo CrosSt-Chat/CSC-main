@@ -2,18 +2,18 @@
 
 export async function run(hazel, core, hold) {
   // 回复提示消息
-  core.replyInfo = function (info, socket) {
-    core.reply({ cmd: 'info', text: info }, socket);
+  core.replyInfo = function (code, text, socket) {
+    core.reply({ cmd: 'info', code, text }, socket);
   }
 
   // 回复警告消息
-  core.replyWarn = function (warn, socket) {
-    core.reply({ cmd: 'warn', text: warn }, socket);
+  core.replyWarn = function (code, text, socket) {
+    core.reply({ cmd: 'warn', code, text }, socket);
   }
 
-  // 回复“未知命令”消息
+  // 回复“命令格式不正确”的警告消息
   core.replyUnknownCommand = function (socket) {
-    core.reply({ cmd: 'warn', text: '未知命令，请查阅帮助文档。' }, socket);
+    core.reply({ cmd: 'warn', code: 'MALFORMED_COMMAND', text: '命令格式不正确，请查阅帮助文档。' }, socket);
   }
 }
 
