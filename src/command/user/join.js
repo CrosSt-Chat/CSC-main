@@ -3,10 +3,10 @@ import { createHash } from 'crypto';
 
 export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数
-  core.checkAddress(socket.remoteAddress, 0);
+  core.checkAddress(socket.remoteAddress, 6);
 
   // 如果用户已经加入了聊天室，则不处理
-  if (typeof socket.channel != 'undefined') { return; }
+  if (typeof socket.channel == 'string') { return; }
 
   // 如果用户提供了 key，则必须提供 trip，反之亦然
   if ((typeof data.trip == 'string') ^ (typeof data.key == 'string')) { return; }
@@ -142,13 +142,17 @@ export async function run(hazel, core, hold, socket, data) {
   });
 
   // 检查用户昵称是否和其他用户重复
+  let nickDuplicate = false;
   channelNicks.forEach((item) => {
     if (item.toLowerCase() == data.nick.toLowerCase()) {
-      core.replyWarn('NICKNAME_DUPLICATE', '已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
-      socket.close();
-      return;
+      nickDuplicate = true;
     }
   });
+  if (nickDuplicate) {
+    core.replyWarn('NICKNAME_DUPLICATE', '已经有人在这个聊天室使用这个昵称，请换一个昵称再试。', socket);
+    socket.close();
+    return;
+  }
 
   // 返回用户列表等信息
   if (typeof data.password == 'string') {
@@ -159,13 +163,13 @@ export async function run(hazel, core, hold, socket, data) {
       nicks: channelNicks,
       trip: userInfo.trip,
       key: hash.digest('base64').slice(0, 32),
-      ver: core.config.verText
+      ver: core.config.version
     }, socket);
   } else {
     core.reply({
       cmd: 'onlineSet',
       nicks: channelNicks,
-      ver: core.config.verText
+      ver: core.config.version
     }, socket);
   }
 
@@ -206,6 +210,7 @@ export async function run(hazel, core, hold, socket, data) {
   return true;
 }
 
-export const moduleType = 'ws-command';
-export const requiredData = ['channel', 'nick'];
 export const name = 'join';
+export const requiredLevel = 0;
+export const requiredData = ['channel', 'nick'];
+export const moduleType = 'ws-command';

@@ -28,57 +28,13 @@ export async function run( hazel, core, hold, socket, request) {
   // 检查该地址的 CIDR 是否在允许 / 禁止列表中
   [socket.isAllowedIP, socket.isDeniedIP] = core.checkIP(socket.remoteAddress);
 
+  // 初始化 socket 的一些属性
+  socket.level = 0;
+  socket.uType = 'GUEST';
+
   /* 绑定 WebSocket 事件 */
   // message 事件
-  socket.on('message', function (message) {
-    // 检查该地址是否请求频率过高或在 CIDR 禁止列表中
-    if (core.checkAddress(socket.remoteAddress, 1) || socket.isDeniedIP) {
-      // 防止在短时间内发送大量数据时程序占用过高，直接回复处理好的警告消息
-      socket.send('{"cmd":"warn","code":"RATE_LIMITED","text":"您的操作过于频繁或被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
-      return;
-    };
-
-    // 将消息转换为字符串
-    message = message.toString('utf8');
-
-    // 检测消息长度，不符合要求则忽略
-    if (message.length > core.config.dataMaximumLength || message.length < 1) { return; }
-
-    // 将消息转换为 JSON 对象
-    try {
-      message = JSON.parse(message);
-    } catch (error) {
-      // 按照惯例，如果消息不是 JSON 格式，则关闭连接
-      core.removeSocket(socket);
-      return;
-    }
-    if (typeof message !== 'object') {
-      core.removeSocket(socket);
-      return;
-    }
-
-    // JSON 对象中每个属性都必须是字符串
-    // 且属性名不应该是 __proto__  porototype constructor
-    // 否则关闭连接
-    for (const key in message) {
-      if (typeof message[key] !== 'string' || key === '__proto__' || key === 'prototype' || key === 'constructor') {
-        core.removeSocket(socket);
-        return;
-      }
-    }
-
-    if (!message.cmd) { return; } // 消息必须有 cmd 属性
-    
-    // 如果用户没有加入任何聊天室，且不是加入聊天室前允许执行的命令，则忽略
-    let allowedCommandsBoforeJoin = ['join', 'getinfo', 'ping'];
-    if (typeof socket.channel === 'undefined' && !allowedCommandsBoforeJoin.includes(message.cmd)) { return; }
-
-    // 尝试运行命令
-    core.execCommand(socket, message);
-
-    // 计入全局频率
-    core.increaseGlobalRate();
-  });
+  socket.on('message', (message) => { core.handleData(socket, message); });
 
   // close 事件
   socket.on('close', function () {

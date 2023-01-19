@@ -22,6 +22,7 @@ export async function run(hazel, core, hold, socket, data) {
   core.archive('VHP', null, socket.remoteAddress);
 }
 
-export const moduleType = 'ws-command';
-export const requiredData = [];
 export const name = 'getinfo';
+export const requiredLevel = 0;
+export const requiredData = [];
+export const moduleType = 'ws-command';
