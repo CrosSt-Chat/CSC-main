@@ -43,18 +43,18 @@ export async function run(hazel, core, hold) {
 
     // 如果命令不存在，或者不公开，提示命令不存在
     if (typeof command == 'undefined') {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
     if (!command.moduleType === 'ws-command') {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
     // 检查该客户端是否有权限运行该命令
     if (command.requiredLevel > socket.level) {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
@@ -62,7 +62,7 @@ export async function run(hazel, core, hold) {
     if (command.requiredData.length > 0) {
       for (let attr of command.requiredData) {
         if (typeof data[attr] == 'undefined') {
-          core.replyUnknownCommand(socket);
+          core.replyMalformedCommand(socket);
           return;
         }
       }

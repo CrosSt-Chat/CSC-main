@@ -74,7 +74,7 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 判断用户是否为成员 / 管理员
-  if (typeof data.password == 'string') {
+  if (typeof userInfo.trip == 'string') {
     if ( core.config.adminList.includes(userInfo.trip)) {
       userInfo.permission = 'ADMIN';
       userInfo.level = core.config.level.admin;

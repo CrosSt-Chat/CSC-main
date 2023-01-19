@@ -51,7 +51,7 @@ export async function execByChat(hazel, core, hold, socket, line) {
 
   // 如果是空消息，返回命令格式错误
   if (line.length == 0) {
-    core.replyUnknownCommand(socket);
+    core.replyMalformedCommand(socket);
     return;
   }
 

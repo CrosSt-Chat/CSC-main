@@ -12,7 +12,7 @@ export async function run(hazel, core, hold) {
   }
 
   // 回复“命令格式不正确”的警告消息
-  core.replyUnknownCommand = function (socket) {
+  core.replyMalformedCommand = function (socket) {
     core.reply({ cmd: 'warn', code: 'MALFORMED_COMMAND', text: '命令格式不正确，请查阅帮助文档。' }, socket);
   }
 }

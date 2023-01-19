@@ -47,7 +47,16 @@ export async function run(hazel, core, hold, socket, data) {
 
 // 用户使用 /delmem xxxxxx 删除成员
 export async function execByChat(hazel, core, hold, socket, line) {
-  this.run(hazel, core, hold, socket, { trip: line.slice(7).trim() });
+  let trip = line.slice(7).trim();
+
+  // 验证输入的 trip
+  if (!core.verifyTrip(trip)) {
+    core.replyMalformedCommand(socket);
+    return;
+  }
+
+  // 运行命令
+  run(hazel, core, hold, socket, { trip });
 }
 
 export const name = 'delmem';

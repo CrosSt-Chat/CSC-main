@@ -15,17 +15,17 @@ export async function run(hazel, core, hold, socket, data) {
 
     // 如果命令不存在、不公开、权限不足，视为返回命令格式错误
     if (typeof command == 'undefined') {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
     if ((!command.moduleType === 'ws-command') || typeof command.execByChat != 'function') {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
     if (command.requiredLevel > socket.level) {
-      core.replyUnknownCommand(socket);
+      core.replyMalformedCommand(socket);
       return;
     }
 
