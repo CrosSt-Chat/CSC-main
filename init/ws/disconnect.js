@@ -18,7 +18,7 @@ export async function run(hazel, core, hold) {
         }
 
         // 写入存档
-        core.archive('LE', socket, '');
+        core.archive('LEF', socket, '');
       }
     }
 
