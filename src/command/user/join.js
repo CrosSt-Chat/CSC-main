@@ -202,9 +202,9 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 写入存档
   if (userInfo.trip != null) {
-    core.archive('JON', null, socket.address + ' (' + userInfo.uType + ')[' + userInfo.trip + ']' + userInfo.nick + ' ' + userInfo.hash + ' ' + data.channel);
+    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.uType + ')[' + userInfo.trip + ']' + userInfo.nick + ' ' + data.channel);
   } else {
-    core.archive('JON', null, socket.address + ' (' + userInfo.uType + ')' + userInfo.nick + ' ' + userInfo.hash + ' ' + data.channel);
+    core.archive('JON', null, socket.remoteAddress + ' (' + userInfo.uType + ')' + userInfo.nick + ' ' + data.channel);
   }
 
   return true;

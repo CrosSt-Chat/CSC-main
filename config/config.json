@@ -9,7 +9,7 @@
     "user": 1,
     "guest": 0
   },
-  "adminList": [],
+  "adminList": ["f7ZtZf"],
   "botList": [],
   "memberList": [],
   "dataMaximumLength": 32768,

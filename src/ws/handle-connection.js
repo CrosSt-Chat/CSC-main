@@ -48,11 +48,11 @@ export async function run( hazel, core, hold, socket, request) {
       message = JSON.parse(message);
     } catch (error) {
       // 按照惯例，如果消息不是 JSON 格式，则关闭连接
-      socket.terminate();
+      core.removeSocket(socket);
       return;
     }
     if (typeof message !== 'object') {
-      socket.terminate();
+      core.removeSocket(socket);
       return;
     }
 
@@ -61,7 +61,7 @@ export async function run( hazel, core, hold, socket, request) {
     // 否则关闭连接
     for (const key in message) {
       if (typeof message[key] !== 'string' || key === '__proto__' || key === 'prototype' || key === 'constructor') {
-        socket.terminate();
+        core.removeSocket(socket);
         return;
       }
     }
@@ -83,7 +83,7 @@ export async function run( hazel, core, hold, socket, request) {
   socket.on('close', function () {
     // 如果用户加入了聊天室，则从聊天室中移除
     if (typeof socket.channel !== 'undefined') {
-      // to-do: 移除用户
+      core.removeSocket(socket);
     }
   });
 
