@@ -13,7 +13,7 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 删除管理员
-  core.removeFromList(core.config.adminList, data.trip);
+  core.removeFromArray(core.config.adminList, data.trip);
 
   // 保存配置
   core.saveConfig();
@@ -39,7 +39,7 @@ export async function run(hazel, core, hold, socket, data) {
   }, core.findSocketByLevel(core.config.level.member));
 }
 
-// 用户使用 /deladmin xxxxxx 添加管理员
+// 用户使用 /deladmin xxxxxx 删除管理员
 export async function execByChat(hazel, core, hold, socket, line) {
   let trip = line.slice(9).trim();
 
@@ -50,7 +50,7 @@ export async function execByChat(hazel, core, hold, socket, line) {
   }
 
   // 运行命令
-  run(hazel, core, hold, socket, { trip });
+  await run(hazel, core, hold, socket, { trip });
 }
 
 export const name = 'deladmin';

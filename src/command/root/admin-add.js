@@ -56,7 +56,7 @@ export async function execByChat(hazel, core, hold, socket, line) {
   }
 
   // 运行命令
-  run(hazel, core, hold, socket, { trip });
+  await run(hazel, core, hold, socket, { trip });
 }
 
 export const name = 'addadmin';

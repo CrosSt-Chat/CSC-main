@@ -5,9 +5,6 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 频率限制器计数
   core.checkAddress(socket.remoteAddress, 5);
-
-  // 计入全局频率
-  core.increaseGlobalRate();
 }
 
 export const name = 'ping';

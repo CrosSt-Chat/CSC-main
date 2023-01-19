@@ -17,11 +17,11 @@ export async function run(hazel, core, hold) {
         // 如果 arg1 是一个 socket 对象，将错误信息发送给客户端
         if (arg1.constructor.name == 'WebSocket') {
           if (arg1.readyState == 1) {
-            arg1.send('{"cmd":"warn","code":"SERVER_ERROR","text":"服务器遇到了一个错误，无法执行应有的功能。\\n您可以将错误 ID `#' + id + '` 提交给管理员帮助我们查明情况。","data":{"id": "' + id + '"}}');
+            arg1.send('{"cmd":"warn","code":"SERVER_ERROR","text":"# dx_xb\\n服务器遇到了一个错误，无法执行其应有的功能。\\n您可以将错误 ID `#' + id + '` 提交给管理员帮助我们查明情况。","data":{"id": "' + id + '"}}');
             // 将 socket 信息写入日志
             core.log(core.LOG_LEVEL.ERROR, [
               'SERVER ERROR #' + id,
-              'FROM', arg1.remoteAddress, arg1.nick, arg1.channel
+              'FROM', arg1.remoteAddress, '(' + arg1.permission + ')[' + arg1.trip + ']', arg1.nick, arg1.channel,
             ]);
           }
         }
