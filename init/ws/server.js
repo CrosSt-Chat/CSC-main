@@ -2,7 +2,7 @@
 
 export async function run(hazel, core, hold) {
   // 向指定的 socket 发送消息
-  core.send = function (payload, socket) {
+  core.reply = function (payload, socket) {
     try {
       if (socket.readyState === 1 /* OPEN */) {
         socket.send(JSON.stringify(payload));
@@ -96,7 +96,15 @@ export async function run(hazel, core, hold) {
 
   // 向指定的一些 socket 广播消息
   core.broadcast = function (payload, sockets) {
-    sockets.forEach((socket) => { core.send(payload, socket); });
+    sockets.forEach((socket) => {
+      try {
+        if (socket.readyState === 1 /* OPEN */) {
+          socket.send(JSON.stringify(payload));
+        }
+      } catch (error) {
+        hazel.emit('error', error, socket);
+      }
+    });
   }
 }
 

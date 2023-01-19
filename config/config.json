@@ -9,6 +9,9 @@
     "user": 1,
     "guest": 0
   },
+  "adminList": [],
+  "botList": [],
+  "memberList": [],
   "dataMaximumLength": 32768,
   "rateLimiter": {
     "globalTimeRange": 10000,
@@ -19,7 +22,7 @@
   "sitePolicy": {},
   "salts": {
     "trip": "TEMPORARYSALT",
-    "auth": "TEMPORARYSALT",
+    "auth": "TEMPORARYS",
     "client": "TEMPORARYSALT",
     "bot": "TEMPORARYSALT"
   },

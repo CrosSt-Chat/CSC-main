@@ -43,4 +43,8 @@ export default async function (hazel, core, hold) {
   hold.allowCIDRlist = [];
   hold.denyCIDRlist = [];
   core.loadAllowCIDR();
+
+  // 聊天室列表
+  hold.channel = {};
+  hold.lockAllChannels = false;
 };
