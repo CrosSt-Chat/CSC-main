@@ -94,6 +94,17 @@ export async function run(hazel, core, hold) {
     return matches;
   }
 
+  // 根据给定的用户等级查找 socket
+  core.findSocketByLevel = function (level) {
+    let matches = [];
+    hold.wsServer.clients.forEach((socket) => {
+      if (socket.level >= level) {
+        matches.push(socket);
+      }
+    });
+    return matches;
+  }
+
   // 向指定的一些 socket 广播消息
   core.broadcast = function (payload, sockets) {
     sockets.forEach((socket) => {

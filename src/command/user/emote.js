@@ -39,7 +39,7 @@ export async function run(hazel, core, hold, socket, data) {
   core.archive('EMO', socket, data.text);
 }
 
-// 用户使用 /me 命令运行的模块
+// 用户使用 /me 发送的状态消息
 export async function execByChat(hazel, core, hold, socket, line) {
   // 从用户的输入中提取出消息内容
   line = line.slice(4).trim();
