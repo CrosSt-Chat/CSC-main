@@ -1,5 +1,0 @@
-export async function run(hazel, core, hold, socket, data) {}
-
-export const moduleType = '';
-export const requiredData = [];
-export const name = '';
