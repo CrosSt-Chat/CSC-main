@@ -11,8 +11,11 @@ export async function run(hazel, core, hold, socket, data) {
   // 去除首尾空格
   data.text = data.text.trim();
   
-  // 如果是空消息，不处理
-  if (data.text.length == 0) { return; }
+  // 如果是空消息
+  if (data.text.length == 0) {
+    core.replyMalformedCommand(socket);
+    return;
+  }
 
   // 检查昵称
   if (!core.verifyNickname(data.nick)) {
@@ -42,7 +45,7 @@ export async function run(hazel, core, hold, socket, data) {
     from: socket.nick,
     level: socket.level,
     utype: socket.permission,
-    nick: '【收到】 ' + socket.nick,
+    nick: '【收到私聊】 ' + socket.nick,
     trip: socket.trip || ' ',
     text: data.text
   }, targetSocket);
@@ -54,7 +57,7 @@ export async function run(hazel, core, hold, socket, data) {
   core.reply({
     cmd: 'chat',
     type: 'whisper',
-    nick: '【发送】 ' + targetSocket.nick,
+    nick: '【发送私聊】 ' + targetSocket.nick,
     trip: targetSocket.trip || ' ',
     text: data.text
   }, socket);
