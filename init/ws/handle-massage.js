@@ -7,14 +7,6 @@ export async function run(hazel, core, hold) {
       return;
     };
 
-    // 检查该地址是否被全域封禁
-    if (socket.isDeniedIP) {
-      socket.send('{"cmd":"warn","code":"BANNED","text":"您已经被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
-      // 关闭连接
-      socket.terminate();
-      return;
-    }
-
     // 将消息转换为字符串
     data = data.toString('utf8');
 
