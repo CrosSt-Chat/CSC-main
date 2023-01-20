@@ -19,7 +19,7 @@ export async function run( hazel, core, hold, socket, request) {
 
   // 检查该地址是否请求频率过高
   if (core.checkAddress(socket.remoteAddress, 10)) {
-    socket.send('{"cmd":"warn","code":"RATE_LIMITED","text":"您的操作过于频繁或被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
+    socket.send('{"cmd":"warn","code":"RATE_LIMITED","text":"您的操作过于频繁，请稍后再试。"}');
     // 关闭连接
     socket.terminate();
     return;
@@ -27,6 +27,14 @@ export async function run( hazel, core, hold, socket, request) {
 
   // 检查该地址的 CIDR 是否在允许 / 禁止列表中
   [socket.isAllowedIP, socket.isDeniedIP] = core.checkIP(socket.remoteAddress);
+
+  // 检查该地址是否在封禁列表中
+  if (hold.bannedIPlist.includes(socket.remoteAddress) || socket.isDeniedIP) {
+    socket.send('{"cmd":"warn","code":"BANNED","text":"您已经被全域封禁，如果您对此有任何疑问，请联系 mail@henrize.kim 。"}');
+    // 关闭连接
+    socket.terminate();
+    return;
+  }
 
   /* 绑定 WebSocket 事件 */
   // message 事件

@@ -44,6 +44,9 @@ export default async function (hazel, core, hold) {
   hold.denyCIDRlist = [];
   core.loadAllowCIDR();
 
+  // 封禁的 IP 列表
+  hold.bannedIPlist = [];
+
   // 聊天室列表
   hold.channel = {};
   hold.lockAllChannels = false;
