@@ -1,6 +1,9 @@
 // 用于处理用户断开连接
 export async function run(hazel, core, hold) {
   core.removeSocket = function (socket) {
+    // 断开连接
+    socket.terminate();
+
     // 向所有用户广播用户退出的消息
     if (!socket.isInvisible) {
       if (typeof socket.channel == 'string') {
@@ -21,9 +24,6 @@ export async function run(hazel, core, hold) {
         core.archive('LEF', socket, '');
       }
     }
-
-    // 断开连接
-    socket.terminate();
   }
 }
 
