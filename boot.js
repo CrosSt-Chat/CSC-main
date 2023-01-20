@@ -23,6 +23,9 @@ export default async function (hazel, core, hold) {
   // hold.wsServer.on('close', () => { hazel.runFunction('handle-close'); });
   // hold.wsServer.on('headers', ( headers, request ) => { hazel.runFunction('handle-headers', headers, request); });
 
+  // 启动 WebSocket Heartbeat
+  setInterval(() => { hazel.runFunction('heartbeat'); }, hazel.mainConfig.wsHeartbeatInterval);
+
   // 启动定时任务，每过半点执行一次
   // 这个暂时也不用
   /* 
@@ -43,6 +46,9 @@ export default async function (hazel, core, hold) {
   hold.allowCIDRlist = [];
   hold.denyCIDRlist = [];
   core.loadAllowCIDR();
+
+  // 添加本机回环地址到允许列表
+  core.allowCIDR('127.0.0.1/24');
 
   // 封禁的 IP 列表
   hold.bannedIPlist = [];

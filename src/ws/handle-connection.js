@@ -4,10 +4,10 @@ export async function run( hazel, core, hold, socket, request) {
   /* 前置检查 */
   // 获取客户端地址
   if (hazel.mainConfig.behindReverseProxy) {
-    socket.remoteAddress = request.getHeader('x-forwarded-for');
+    socket.remoteAddress = request.headers['x-forwarded-for'].split(',').pop().trim();
 
     // 十字街现在不用 CDN 所以不用这个玩意
-    // socket.remoteAddress = request.getHeader('x-forwarded-for').spilt(', ')[0];
+    // socket.remoteAddress = 
   } else {
     socket.remoteAddress = request.connection.remoteAddress;
   }

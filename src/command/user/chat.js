@@ -72,6 +72,8 @@ export async function run(hazel, core, hold, socket, data) {
       text: getChatTimeStr()
     }, hold.channel.get(socket.channel).socketList);
   }
+  // 更新最后活跃时间
+  hold.channel.get(socket.channel).lastActive = timeNow;
 
   // 在聊天室广播消息
   if (typeof socket.trip == 'string') {

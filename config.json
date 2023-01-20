@@ -11,10 +11,8 @@
     }
   },
   "logDir": "./logs",
-  "HTTP": {
-    "behindReverseProxy": false,
-    "requestTimeout": 10000
-  },
+  "behindReverseProxy": false,
+  "wsHeartbeatInterval": 16000,
   "appConfigDir": "/config/config.json",
   "allowCIDRlistDir": "/config/allow.txt"
 }
