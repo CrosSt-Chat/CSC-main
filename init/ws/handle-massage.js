@@ -17,6 +17,8 @@ export async function run(hazel, core, hold) {
     try {
       data = JSON.parse(data);
     } catch (error) {
+      // 记录在日志中
+      core.log(core.LOG_LEVEL.WARN, ['Malformed JSON data received from ', socket.remoteAddress, data]);
       // 按照惯例，如果消息不是 JSON 格式，则关闭连接
       socket.terminate();
       return;
@@ -30,7 +32,14 @@ export async function run(hazel, core, hold) {
     // 且属性名不应该是 __proto__  porototype constructor
     // 否则关闭连接
     for (const key in data) {
-      if (typeof data[key] !== 'string' || key === '__proto__' || key === 'prototype' || key === 'constructor') {
+      if (typeof data[key] !== 'string') {
+        socket.terminate();
+        return;
+      }
+
+      if (key === '__proto__' || key === 'prototype' || key === 'constructor') {
+        // 记录攻击行为
+        core.log(core.LOG_LEVEL.WARN, ['Malformed JSON data received from ', socket.remoteAddress, JSON.stringify(data)]);
         socket.terminate();
         return;
       }

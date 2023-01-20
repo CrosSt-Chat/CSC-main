@@ -6,7 +6,7 @@ export async function run(hazel, core, hold) {
   core.LOG_LEVEL = {
     DEBUG: 0,
     LOG: 1,
-    WARNING: 2,
+    WARN: 2,
     ERROR: 3
   };
 

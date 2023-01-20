@@ -53,7 +53,7 @@ export async function run( hazel, core, hold, socket, request) {
 
   /* 结束部分 */
   // 记录日志
-  core.log(core.LOG_LEVEL.DEBUG, ['New connection from', socket.remoteAddress, 'isAllowedIP:', socket.isAllowedIP, 'isDeniedIP:', socket.isDeniedIP]);
+  // core.log(core.LOG_LEVEL.DEBUG, ['New connection from', socket.remoteAddress, 'isAllowedIP:', socket.isAllowedIP, 'isDeniedIP:', socket.isDeniedIP]);
 
   // 计入全局频率
   core.increaseGlobalRate();
