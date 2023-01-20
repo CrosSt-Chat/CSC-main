@@ -14,6 +14,9 @@ export async function run(hazel, core, hold, socket, data) {
     'SITE_ARE_UNLOCKED', '全部聊天室已解锁',
     core.findSocketByLevel(2)
   );
+
+  // 写入存档
+  core.archive('ULS', socket, '');
 }
 
 // 通过 /unlocksite 命令解锁全部房间

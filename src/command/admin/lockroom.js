@@ -33,6 +33,9 @@ export async function run(hazel, core, hold, socket, data) {
     'CHANNEL_ARE_LOCKED', '已锁定本聊天室',
     core.findSocketByLevel(2, hold.channel[targetChannel].socketList)
   );
+
+  // 写入存档
+  core.archive('LOR', socket, lockroomType);
 }
 
 // 通过 /lockroom no-kick|kick 命令锁定房间

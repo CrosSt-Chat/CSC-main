@@ -32,6 +32,9 @@ export async function run(hazel, core, hold, socket, data) {
     'SITE_ARE_LOCKED', '全部聊天室已锁定',
     core.findSocketByLevel(2)
   );
+
+  // 写入存档
+  core.archive('LOS', socket, lockType);
 }
 
 // 通过 /locksite no-kick|kick 命令锁定全部房间

@@ -11,6 +11,9 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 向房间内所有成员广播锁定消息
   core.broadcastInfo('CHANNEL_ARE_UNLOCKED', '已解锁本聊天室', core.findSocketByLevel(2, hold.channel[socket.channel].socketList));
+
+  // 写入存档
+  core.archive('ULR', socket, '');
 }
 
 // 通过 /unlockroom  命令解锁房间

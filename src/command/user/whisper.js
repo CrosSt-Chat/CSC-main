@@ -65,8 +65,8 @@ export async function run(hazel, core, hold, socket, data) {
   // 保存到“上一次私聊”中
   socket.lastWhisperFrom = targetSocket.nick;
 
-  // 记录日志
-  core.log('WHI', socket, '-> ' + targetSocket.nick + ' ' + data.text);
+  // 写入存档
+  core.archive('WHI', socket, '-> ' + targetSocket.nick + ' ' + data.text);
 }
 
 export const name = 'whisper';
