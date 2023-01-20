@@ -14,6 +14,9 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 向该用户发送成功消息
   core.replyInfo('PERMISSION_UPDATE', '您的权限已更新。', socket);
+
+  // 写入存档
+  core.archive('ERT', socket, '');
 }
 
 // 用户使用 /elevate passcode 提权

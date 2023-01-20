@@ -43,6 +43,9 @@ export async function run(hazel, core, hold, socket, data) {
     text: '已添加新成员：' + data.trip,
     data: { trip: data.trip },
   }, core.findSocketByLevel(core.config.level.member));
+
+  // 写入存档
+  core.archive('ADM', socket, data.trip);
 }
 
 // 用户使用 /addmem xxxxxx 添加的成员

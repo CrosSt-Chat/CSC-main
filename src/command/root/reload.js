@@ -6,7 +6,7 @@ export async function run(hazel, core, hold, socket, data) {
   await hazel.reloadModules(false);
 }
 
-// 用户使用 /reload 重载十字街
+// 使用 /reload 重载十字街
 export async function execByChat(hazel, core, hold, socket, line) {
   if (line.trim() == '/reload') {
     await run(hazel, core, hold, socket);

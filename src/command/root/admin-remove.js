@@ -33,10 +33,13 @@ export async function run(hazel, core, hold, socket, data) {
   // 向全部成员广播消息
   core.broadcast({
     cmd: 'info',
-    code: 'ADMIN_ADD',
+    code: 'ADMIN_REMOVE',
     text: '已删除管理员：' + data.trip,
     data: { trip: data.trip },
   }, core.findSocketByLevel(core.config.level.member));
+
+  // 写入存档
+  core.archive('RMA', socket, data.trip);
 }
 
 // 用户使用 /deladmin xxxxxx 删除管理员

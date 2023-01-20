@@ -43,6 +43,9 @@ export async function run(hazel, core, hold, socket, data) {
     text: '已删除成员：' + data.trip,
     data: { trip: data.trip },
   }, core.findSocketByLevel(core.config.level.member));
+
+  // 写入存档
+  core.archive('RMM', socket, data.trip);
 }
 
 // 用户使用 /delmem xxxxxx 删除成员

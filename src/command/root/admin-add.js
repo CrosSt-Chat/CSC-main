@@ -43,6 +43,9 @@ export async function run(hazel, core, hold, socket, data) {
     text: '已添加新管理员：' + data.trip,
     data: { trip: data.trip },
   }, core.findSocketByLevel(core.config.level.member));
+
+  // 写入存档
+  core.archive('ADA', socket, data.trip);
 }
 
 // 用户使用 /addadmin xxxxxx 添加管理员
