@@ -3,6 +3,11 @@ export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数（好像没必要）
   // core.checkAddress(socket.remoteAddress, 0);
 
+  // 检查用户是否可以发送消息
+  if (!core.canSpeak(socket)) {
+    return;
+  }
+
   // 如果是超长消息，进行频率限制
   if (data.length > 128) {
     core.checkAddress(socket.remoteAddress, 12);

@@ -1,6 +1,6 @@
 // 解封全部 IP 地址
 export async function run(hazel, core, hold, socket, data) {
-  // 解封该 IP 地址
+  // 清空封禁列表
   hold.bannedIPlist = [];
 
   // 通知全部管理员
@@ -22,5 +22,5 @@ export async function execByChat(hazel, core, hold, socket, line) {
 
 export const name = 'unbanall';
 export const requiredLevel = 4;
-export const requiredData = ['address'];
+export const requiredData = [];
 export const moduleType = 'ws-command';

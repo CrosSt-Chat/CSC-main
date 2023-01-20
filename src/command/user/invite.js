@@ -3,6 +3,11 @@ export async function run(hazel, core, hold, socket, data) {
   // 频率计数器计数
   core.checkAddress(socket.remoteAddress, 5);
 
+  // 检查用户是否可以发送消息
+  if (!core.canSpeak(socket)) {
+    return;
+  }
+
   // 检查用户输入的数据
   if (!core.verifyNickname(data.nick)) {
     // 这是客户端生成的数据，不是用户输入的数据

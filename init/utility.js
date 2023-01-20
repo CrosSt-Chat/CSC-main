@@ -26,7 +26,7 @@ export async function run(hazel, core, hold) {
   core.splitArgs = function (line) {
     let args = [];
     line.split(' ').forEach((arg) => {
-      if (arg.trim() != '') args.push(arg);
+      if (arg != '') args.push(arg);
     });
     return args;
   }
