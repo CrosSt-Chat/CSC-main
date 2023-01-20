@@ -1,4 +1,11 @@
 // 用于处理用户发送的聊天消息
+function getChatTimeStr() {
+  let now = new Date();
+  let hour = now.getHours();
+  let min = now.getMinutes();
+  return (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min);
+}
+
 export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数（好像没必要）
   // core.checkAddress(socket.remoteAddress, 0);
@@ -49,6 +56,17 @@ export async function run(hazel, core, hold, socket, data) {
   // Markdown 引擎会把三个以上的换行符处理掉，这里就不用处理了
   // data.text = data.text.replace(/\n{3,}/g, '\n\n');
   // data.text = data.text.replace(/\r\n{3,}/g, '\r\n\r\n');
+
+  // 如果该聊天室三分钟前未发送过消息，发送时间
+  let timeNow = Date.now();
+  if ((hold.channel[socket.channel].lastActive + 180000) < timeNow) {
+    core.broadcast({
+      cmd: 'info',
+      code: 'CHAT_TIME',
+      trip: '/TIME/',
+      text: getChatTimeStr()
+    }, hold.channel[socket.channel].socketList);
+  }
 
   // 在聊天室广播消息
   if (typeof socket.trip == 'string') {

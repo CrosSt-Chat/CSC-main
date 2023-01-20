@@ -6,7 +6,7 @@ class CSCWebSocket extends WebSocket {
     super(...args);
 
     // 生成一个随机的 connectionID
-    this.connectionID = Math.random().toString(36).slice(2, 14);
+    this.connectionID = Math.random().toString(36).slice(2, 10);
   }
 
   // 十字街在运行时使用的属性
