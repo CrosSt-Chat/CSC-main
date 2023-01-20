@@ -9,4 +9,5 @@ export async function run(hazel, core, hold) {
     hold.stats[key]--;
   }
 }
+
 export const priority = 32;
