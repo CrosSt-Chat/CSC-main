@@ -2,7 +2,7 @@
 export async function run(hazel, core, hold) {
   core.removeSocket = function (socket) {
     // 向所有用户广播用户退出的消息
-    if (!socket.invisible) {
+    if (!socket.isInvisible) {
       if (typeof socket.channel == 'string') {
         core.broadcast({
           cmd: 'onlineRemove',

@@ -23,7 +23,7 @@ export async function run(hazel, core, hold, socket, data) {
     permission: 'USER',
     trip: null,
     level: core.config.level.user,
-    invisible: false
+    isInvisible: false
   };
 
   // 如果用户提供了 key 和 trip，则使用 key 验证已有的用户信息
@@ -59,6 +59,7 @@ export async function run(hazel, core, hold, socket, data) {
     // 先检查昵称
     if (!core.verifyNickname(data.nick)) {
       core.replyWarn('NICKNAME_INVALID', '昵称应当仅由汉字、字母、数字和不超过 3 个的特殊字符（_-+.:;）组成，而且不能太长。', socket);
+      socket.close();
       return;
     }
 
@@ -136,7 +137,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 生成用户列表
   let channelNicks = [];
   hold.channel[data.channel].socketList.forEach((item) => {
-    if(!item.invisible) {
+    if(!item.isInvisible) {
       channelNicks.push(item.nick);
     }
   });
@@ -174,7 +175,7 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 广播用户上线信息
-  if (!userInfo.invisible) {
+  if (!userInfo.isInvisible) {
     core.broadcast({
       cmd: 'onlineAdd',
       nick: userInfo.nick,
@@ -192,7 +193,7 @@ export async function run(hazel, core, hold, socket, data) {
   socket.permission = userInfo.permission;
   socket.level = userInfo.level;
   socket.channel = data.channel;
-  socket.invisible = userInfo.invisible;
+  socket.isInvisible = userInfo.isInvisible;
 
   // 将 socket 对象添加到聊天室的 socketList 中
   hold.channel[data.channel].socketList.add(socket);

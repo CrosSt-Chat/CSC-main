@@ -15,7 +15,7 @@ export async function run(hazel, core, hold) {
 
       if (typeof arg1 != 'undefined') {
         // 如果 arg1 是一个 socket 对象，将错误信息发送给客户端
-        if (arg1.constructor.name == 'WebSocket') {
+        if (arg1.constructor.name == 'CSCWebSocket') {
           if (arg1.readyState == 1) {
             arg1.send('{"cmd":"warn","code":"SERVER_ERROR","text":"# dx_xb\\n服务器遇到了一个错误，无法执行其应有的功能。\\n您可以将错误 ID `#' + id + '` 提交给管理员帮助我们查明情况。","data":{"id": "' + id + '"}}');
             // 将 socket 信息写入日志

@@ -28,10 +28,6 @@ export async function run( hazel, core, hold, socket, request) {
   // 检查该地址的 CIDR 是否在允许 / 禁止列表中
   [socket.isAllowedIP, socket.isDeniedIP] = core.checkIP(socket.remoteAddress);
 
-  // 初始化 socket 的一些属性
-  socket.level = 0;
-  socket.permission = 'GUEST';
-
   /* 绑定 WebSocket 事件 */
   // message 事件
   socket.on('message', (message) => { core.handleData(socket, message); });
@@ -49,7 +45,7 @@ export async function run( hazel, core, hold, socket, request) {
 
   /* 结束部分 */
   // 记录日志
-  core.log(core.LOG_LEVEL.LOG, ['New connection from', socket.remoteAddress, 'isAllowedIP:', socket.isAllowedIP, 'isDeniedIP:', socket.isDeniedIP]);
+  core.log(core.LOG_LEVEL.DEBUG, ['New connection from', socket.remoteAddress, 'isAllowedIP:', socket.isAllowedIP, 'isDeniedIP:', socket.isDeniedIP]);
 
   // 计入全局频率
   core.increaseGlobalRate();
