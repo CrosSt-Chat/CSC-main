@@ -2,7 +2,7 @@
 // 之后大概率会被废弃
 export async function run(hazel, core, hold, socket, data) {
   // 频率限制器计数
-  core.checkAddress(socket.remoteAddress, 6);
+  core.checkAddress(socket.remoteAddress, 2);
 
   // 回复客户端简易的服务器信息
   core.reply({

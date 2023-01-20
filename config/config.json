@@ -18,9 +18,9 @@
   ],
   "dataMaximumLength": 32768,
   "rateLimiter": {
-    "globalTimeRange": 10000,
-    "halfScoreTime": 3000,
-    "limit": 20
+    "globalTimeRange": 20000,
+    "halfScoreTime": 30000,
+    "limit": 26
   },
   "alertFrequency": 180,
   "sitePolicy": {},

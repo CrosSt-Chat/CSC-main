@@ -18,7 +18,7 @@ export async function run( hazel, core, hold, socket, request) {
   }
 
   // 检查该地址是否请求频率过高
-  if (core.checkAddress(socket.remoteAddress, 10)) {
+  if (core.checkAddress(socket.remoteAddress, 3)) {
     socket.send('{"cmd":"warn","code":"RATE_LIMITED","text":"您的操作过于频繁，请稍后再试。"}');
     // 关闭连接
     socket.terminate();
