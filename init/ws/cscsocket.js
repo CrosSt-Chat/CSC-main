@@ -21,6 +21,7 @@ class CSCWebSocket extends WebSocket {
   level = 0;
   channel;
   isInvisible = false;
+  lastWhisperFrom;
 }
 
 export async function run(hazel, core, hold) {

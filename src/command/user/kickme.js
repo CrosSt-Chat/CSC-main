@@ -54,6 +54,6 @@ export async function execByChat(hazel, core, hold, socket, line) {
 }
 
 export const name = 'kickme';
-export const requiredLevel = 0;
-export const requiredData = [];
+export const requiredLevel = 1;
+export const requiredData = ['nick'];
 export const moduleType = 'ws-command';
