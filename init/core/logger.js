@@ -57,8 +57,9 @@ export async function run(hazel, core, hold) {
       content += logText;
     }
 
-    content.replace(/\n/g, '\\n');
-    content.replace(/\r/g, '\\r');
+    // 替换 content 中的换行
+    content = content.replace(/\n/g, '\\n');
+    content = content.replace(/\r/g, '\\r');
     content += '\n';
 
     // 写入日志

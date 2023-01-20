@@ -7,5 +7,5 @@ export async function run(hazel, core, hold) {
   });
 }
 
+export const name = 'heartbeat';
 export const moduleType = 'system';
-export const name = 'beatheart';

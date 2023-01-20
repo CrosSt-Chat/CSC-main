@@ -59,5 +59,5 @@ export async function run( hazel, core, hold, socket, request) {
   core.increaseGlobalRate();
 }
 
-export const moduleType = 'system';
 export const name = 'handle-connection';
+export const moduleType = 'system';
