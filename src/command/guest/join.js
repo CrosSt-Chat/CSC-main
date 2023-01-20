@@ -116,16 +116,16 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 检查聊天室对象是否存在，如果不存在则创建
-  if (typeof hold.channel[data.channel] == 'undefined') {
-    hold.channel[data.channel] = {
+  if (!hold.channel.has(data.channel)) {
+    hold.channel.set(data.channel, {
       isLocked: false,
       lastActive: Date.now(),
       socketList: new Set(),  
-    };
+    });
   }
 
   // 检查聊天室是否被锁定
-  if (hold.channel[data.channel].isLocked || hold.lockAllChannels) {
+  if (hold.channel.get(data.channel).isLocked || hold.lockAllChannels) {
     // 如果用户是成员，则允许进入
     if (userInfo.level < core.config.level.member) {
       core.replyWarn('CHANNEL_LOCKED', '## 非常抱歉，该聊天室已锁定，即暂时禁止非成员进入。\n**可能的原因：**\n\\* 为提供更好的服务体验，十字街的 ?公共聊天室 一般会在深夜（北京时间）锁定。\n\\* 这个聊天室出现了大量且难以控制的违规行为，暂时锁定以维持秩序。\n**您可以尝试：**\n\\* 如果您是成员，请使用您的密码重新加入这个聊天室。\n\\* 暂时使用十字街的其它聊天室。\n\\* 一段时间后再来尝试加入本聊天室。', socket);
@@ -136,7 +136,7 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 生成用户列表
   let channelNicks = [];
-  hold.channel[data.channel].socketList.forEach((item) => {
+  hold.channel.get(data.channel).socketList.forEach((item) => {
     if(!item.isInvisible) {
       channelNicks.push(item.nick);
     }
@@ -184,7 +184,7 @@ export async function run(hazel, core, hold, socket, data) {
       level: userInfo.level,
       client: cName,
       channel: data.channel
-    }, hold.channel[data.channel].socketList);
+    }, hold.channel.get(data.channel).socketList);
   }
 
   // 保存用户信息
@@ -196,7 +196,7 @@ export async function run(hazel, core, hold, socket, data) {
   socket.isInvisible = userInfo.isInvisible;
 
   // 将 socket 对象添加到聊天室的 socketList 中
-  hold.channel[data.channel].socketList.add(socket);
+  hold.channel.get(data.channel).socketList.add(socket);
 
   // 记录 stats
   core.increaseState('users-joined');

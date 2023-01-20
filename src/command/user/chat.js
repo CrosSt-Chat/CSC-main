@@ -64,13 +64,13 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 如果该聊天室三分钟前未发送过消息，发送时间
   let timeNow = Date.now();
-  if ((hold.channel[socket.channel].lastActive + 180000) < timeNow) {
+  if ((hold.channel.get(socket.channel).lastActive + 180000) < timeNow) {
     core.broadcast({
       cmd: 'info',
       code: 'CHAT_TIME',
       trip: '/TIME/',
       text: getChatTimeStr()
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   }
 
   // 在聊天室广播消息
@@ -84,7 +84,7 @@ export async function run(hazel, core, hold, socket, data) {
       member: (socket.level >= core.config.level.member),
       admin: (socket.level >= core.config.level.admin),
       text: data.text
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   } else {
     core.broadcast({
       cmd: 'chat',
@@ -92,7 +92,7 @@ export async function run(hazel, core, hold, socket, data) {
       nick: socket.nick,
       utype: socket.permission,
       text: data.text
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   }
 
   // 记录 stats

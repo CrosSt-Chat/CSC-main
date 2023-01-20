@@ -27,14 +27,14 @@ export async function run(hazel, core, hold, socket, data) {
       nick: socket.nick,
       trip: socket.trip,
       text: '@' + socket.nick + ' ' + data.text
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   } else {
     core.broadcast({
       cmd: 'info',
       code: 'EMOTE',
       nick: socket.nick,
       text: '@' + socket.nick + ' ' + data.text
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   }
 
   // 记录 stats
@@ -68,14 +68,14 @@ export async function execByChat(hazel, core, hold, socket, line) {
       nick: socket.nick,
       trip: socket.trip,
       text: '@' + socket.nick + ' ' + line
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   } else {
     core.broadcast({
       cmd: 'info',
       code: 'EMOTE',
       nick: socket.nick,
       text: '@' + socket.nick + ' ' + line
-    }, hold.channel[socket.channel].socketList);
+    }, hold.channel.get(socket.channel).socketList);
   }
 
   // 记录 stats

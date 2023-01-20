@@ -48,7 +48,7 @@ export default async function (hazel, core, hold) {
   hold.bannedIPlist = [];
 
   // 聊天室列表
-  hold.channel = {};
+  hold.channel = new Map();
   hold.lockAllChannels = false;
 
   // 禁言时间列表

@@ -12,17 +12,17 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 检查房间是否已经被锁定
-  if (hold.channel[targetChannel].isLocked) {
+  if (hold.channel.get(targetChannel).isLocked) {
     core.replyWarn('CHANNEL_ALREADY_LOCKED', '房间已经被锁定', socket);
     return;
   }
 
   // 锁定房间
-  hold.channel[targetChannel].isLocked = true;
+  hold.channel.get(targetChannel).isLocked = true;
 
   // 踢出全部非成员
   if (lockroomType == 'kick') {
-    core.findSocket({ level: 1 }, hold.channel[targetChannel].socketList).forEach((targetSocket) => {
+    core.findSocket({ level: 1 }, hold.channel.get(targetChannel).socketList).forEach((targetSocket) => {
       core.replyWarn('CHANNEL_LOCKED', '该聊天室暂时不可用，请尝试加入其他聊天室。', targetSocket);
       targetSocket.close();
     });
@@ -31,7 +31,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 向房间内所有成员广播锁定消息
   core.broadcastInfo(
     'CHANNEL_ARE_LOCKED', '已锁定本聊天室',
-    core.findSocketByLevel(2, hold.channel[targetChannel].socketList)
+    core.findSocketByLevel(2, hold.channel.get(targetChannel).socketList)
   );
 
   // 写入存档
