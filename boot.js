@@ -47,4 +47,8 @@ export default async function (hazel, core, hold) {
   // 聊天室列表
   hold.channel = {};
   hold.lockAllChannels = false;
+
+  // 写日志，保存服务器启动时间
+  hold.startTime = Date.now();
+  core.log(core.LOG_LEVEL.LOG, 'Server initialized');
 };
