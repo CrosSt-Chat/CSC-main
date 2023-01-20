@@ -2,13 +2,21 @@
 
 export async function run(hazel, core, hold) {
   // 回复提示消息
-  core.replyInfo = function (code, text, socket) {
-    core.reply({ cmd: 'info', code, text }, socket);
+  core.replyInfo = function (code, text, socket, extraData) {
+    if (typeof extraData == 'object') {
+      core.reply({ cmd: 'info', code, text, extraData }, socket);
+    } else {
+      core.reply({ cmd: 'info', code, text }, socket);
+    }
   }
 
   // 回复警告消息
-  core.replyWarn = function (code, text, socket) {
-    core.reply({ cmd: 'warn', code, text }, socket);
+  core.replyWarn = function (code, text, socket, extraData) {
+    if (typeof extraData == 'object') {
+      core.reply({ cmd: 'warn', code, text, extraData }, socket);
+    } else {
+      core.reply({ cmd: 'warn', code, text }, socket);
+    }
   }
 
   // 回复“命令格式不正确”的警告消息
