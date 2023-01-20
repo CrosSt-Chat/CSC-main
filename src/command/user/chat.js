@@ -18,7 +18,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 如果消息以 / 开头，视为命令
   if (data.text[0] == '/') {
     // 查找命令是否存在且支持使用聊天框运行
-    let command = hazel.loadedFunctions.get(data.text.slice(1, data.text.indexOf(' ')));
+    let command = hazel.loadedFunctions.get(data.text.split(' ')[0].slice(1));
 
     // 如果命令不存在、不公开、权限不足，视为返回命令格式错误
     if (typeof command == 'undefined') {
