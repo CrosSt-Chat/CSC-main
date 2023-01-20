@@ -66,11 +66,12 @@ export async function run(hazel, core, hold) {
   */
 
   // 使用属性为字符串的过滤条件查找 socket
-  core.findSocket = function (filter) {
+  core.findSocket = function (filter, sockets) {
     let attrCount = Object.keys(filter).length;
     let curMatch = 0;
     let matches = [];
-    hold.wsServer.clients.forEach((socket) => {
+    let socketList = sockets || hold.wsServer.clients;
+    socketList.forEach((socket) => {
       curMatch = 0;
       for (let attr in filter) {
         if (socket[attr] === filter[attr]) {
@@ -97,9 +98,10 @@ export async function run(hazel, core, hold) {
   }
 
   // 根据给定的用户等级查找 socket
-  core.findSocketByLevel = function (level) {
+  core.findSocketByLevel = function (level, sockets) {
     let matches = [];
-    hold.wsServer.clients.forEach((socket) => {
+    let socketList = sockets || hold.wsServer.clients;
+    socketList.forEach((socket) => {
       if (socket.level >= level) {
         matches.push(socket);
       }

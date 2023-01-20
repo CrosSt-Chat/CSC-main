@@ -19,6 +19,24 @@ export async function run(hazel, core, hold) {
     }
   }
 
+  // 广播提示消息
+  core.broadcastInfo = function (code, text, sockets, extraData) {
+    if (typeof extraData == 'object') {
+      core.broadcast({ cmd: 'info', code, text, extraData }, sockets);
+    } else {
+      core.broadcast({ cmd: 'info', code, text }, sockets);
+    }
+  }
+
+  // 广播警告消息
+  core.broadcastWarn = function (code, text, sockets, extraData) {
+    if (typeof extraData == 'object') {
+      core.broadcast({ cmd: 'warn', code, text, extraData }, sockets);
+    } else {
+      core.broadcast({ cmd: 'warn', code, text }, sockets);
+    }
+  }
+
   // 回复“命令格式不正确”的警告消息
   core.replyMalformedCommand = function (socket) {
     core.reply({ cmd: 'warn', code: 'MALFORMED_COMMAND', text: '命令格式不正确，请查阅帮助文档。' }, socket);
