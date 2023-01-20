@@ -70,7 +70,6 @@ export default class Hazel extends EventEmitter {
   }
 
   async loadModules( forceLoad ) {
-    let newCore = {};
     let { moduleList: loadedInits, existError: initsExistError } = await loadModule( this, this.mainConfig.baseDir + this.mainConfig.hazel.moduleDirs.initsDir, 'init');
     if ( !forceLoad && initsExistError ) {
       return false;
@@ -78,9 +77,10 @@ export default class Hazel extends EventEmitter {
 
     this.removeAllListeners();
     this.on('error', () => {});
-    
+
+    for ( let property in this.#core ) { delete this.#core[ property ]; }
     loadedInits.forEach( initFunction => {
-      initFunction.run( this, newCore, this.#hold )
+      initFunction.run( this, this.#core, this.#hold )
         .catch(( error ) => {
           this.emit('error', error );
           console.error( error );
@@ -97,7 +97,6 @@ export default class Hazel extends EventEmitter {
       return false;
     }
 
-    this.#core = newCore;
     this.loadedFunctions = loadedFunctions;
 
     console.log('√ Initialize functions complete!\n');
