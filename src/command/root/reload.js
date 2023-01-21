@@ -4,6 +4,9 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 重载十字街
   await hazel.reloadModules(false);
+
+  // 记录重载时间
+  hold.lastReloadTime = Date.now();
 }
 
 // 使用 /reload 重载十字街

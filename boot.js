@@ -60,7 +60,8 @@ export default async function (hazel, core, hold) {
   // 禁言时间列表
   hold.muteUntil = new Map();
 
-  // 写日志，保存服务器启动时间
+  // 写日志，保存服务器启动时间，上次重读时间
   hold.startTime = Date.now();
+  hold.lastReloadTime = Date.now();
   core.log(core.LOG_LEVEL.LOG, 'Server initialized');
 };
