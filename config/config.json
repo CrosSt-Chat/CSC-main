@@ -18,7 +18,7 @@
   ],
   "dataMaximumLength": 32768,
   "rateLimiter": {
-    "globalTimeRange": 20000,
+    "globalTimeRange": 10000,
     "halfScoreTime": 30000,
     "limit": 26
   },

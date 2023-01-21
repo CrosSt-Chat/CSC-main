@@ -1,7 +1,7 @@
 // 频率限制器，可以判断一个 IP 的请求频率是否过高，
 // 也可以显示全局的频率
 
-var lastRateTime = Date.now();
+var lastRateTime = 0;
 
 export async function run( hazel, core, hold ) {
 
@@ -19,7 +19,7 @@ export async function run( hazel, core, hold ) {
     hold.rateRecords[remoteAddress].lastRateTime = Date.now();
 
     if (hold.rateRecords[remoteAddress].score >= core.config.rateLimiter.limit) {
-      return true;
+      return false;
     }
 
     return false;
@@ -29,20 +29,19 @@ export async function run( hazel, core, hold ) {
   core.increaseGlobalRate = function () {
     let thisTime = Date.now();
   
-    if ( thisTime - lastRateTime >= core.config.rateLimiter.globalTimeRange ) {
-      hold.perviousRate = 60000;
+    if ((thisTime - lastRateTime) < core.config.rateLimiter.globalTimeRange ) {
+      hold.perviousRate = hold.perviousRate * (1 - (( thisTime - lastRateTime) / core.config.rateLimiter.globalTimeRange)) + 1;
     } else {
-      hold.perviousRate = ( core.config.rateLimiter.globalTimeRange * hold.perviousRate ) / ( core.config.rateLimiter.globalTimeRange - ( thisTime - lastRateTime) + hold.perviousRate );
+      hold.perviousRate = 1;
     }
   
     lastRateTime = thisTime;
-  
     return;
   }
 
   // 返回服务器的估计全局频率 单位：次每分钟
   core.getFrequency = function () {
-    return ( core.config.rateLimiter.globalTimeRange * core.config.rateLimiter.globalTimeRange) / ( hold.perviousRate * 60000 );
+    return hold.perviousRate * (60000 / core.config.rateLimiter.globalTimeRange);
   }
 }
 
