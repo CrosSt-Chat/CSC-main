@@ -19,7 +19,7 @@ export async function run( hazel, core, hold ) {
     hold.rateRecords[remoteAddress].lastRateTime = Date.now();
 
     if (hold.rateRecords[remoteAddress].score >= core.config.rateLimiter.limit) {
-      return false;
+      return true;
     }
 
     return false;
@@ -32,7 +32,7 @@ export async function run( hazel, core, hold ) {
     if ((thisTime - lastRateTime) < core.config.rateLimiter.globalTimeRange ) {
       hold.perviousRate = hold.perviousRate * (1 - (( thisTime - lastRateTime) / core.config.rateLimiter.globalTimeRange)) + 1;
     } else {
-      hold.perviousRate = 1;
+      hold.perviousRate = core.config.rateLimiter.globalTimeRange / (thisTime - lastRateTime);
     }
   
     lastRateTime = thisTime;

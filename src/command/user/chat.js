@@ -68,7 +68,7 @@ export async function run(hazel, core, hold, socket, data) {
     core.broadcast({
       cmd: 'info',
       code: 'CHAT_TIME',
-      trip: '/TIME/',
+      trip: '/Time/',
       text: getChatTimeStr()
     }, hold.channel.get(socket.channel).socketList);
   }
