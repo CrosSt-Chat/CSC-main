@@ -20,7 +20,7 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 强制退出该用户
   core.findSocketTiny('remoteAddress', targetSocket.remoteAddress).forEach((targetSocket) => {
-    socket.terminate();
+    targetSocket.terminate();
   });
 
   // 通知全部管理员
