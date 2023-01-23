@@ -53,6 +53,10 @@ export default async function (hazel, core, hold) {
   // 封禁的 IP 列表
   hold.bannedIPlist = [];
 
+  // CIDR 检查规则
+  hold.checkCIDRglobal = true;
+  hold.checkCIDRchannelList = new Map();
+
   // 聊天室列表
   hold.channel = new Map();
   hold.lockAllChannels = false;
