@@ -54,7 +54,7 @@ export default async function (hazel, core, hold) {
   hold.bannedIPlist = [];
 
   // CIDR 检查规则
-  hold.checkCIDRglobal = true;
+  hold.checkCIDRglobal = false;
   hold.checkCIDRchannelList = new Map();
 
   // 聊天室列表

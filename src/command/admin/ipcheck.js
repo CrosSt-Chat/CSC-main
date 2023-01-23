@@ -24,7 +24,7 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 设置频道的 CIDR 检查规则
-  if ( data.type == 'channel' ) {
+  if (data.type == 'channel') {
     if (data.rule == 'on') {
       hold.checkCIDRchannelList.set(socket.channel, true);
       core.broadcastInfo('CHANNEL_CIDR_CHECK_ON', socket.channel + ' 已开启 CIDR 检查。', core.findSocketByLevel(core.config.level.member), { channel: socket.channel });
@@ -40,11 +40,11 @@ export async function run(hazel, core, hold, socket, data) {
 
 // 用户使用 /ipcheck <on|off> <global|channel> 命令时触发
 export async function execByChat(hazel, core, hold, socket, line) {
-  let args = core.spiltArgs(line);
+  let args = core.splitArgs(line);
   if (args[2]) {
-    run(hazel, core, hold, socket, { rule: args[1], type: args[2] });
+    await run(hazel, core, hold, socket, { rule: args[1], type: args[2] });
   } else {
-    run(hazel, core, hold, socket, { rule: args[1], type: 'global' });
+    await run(hazel, core, hold, socket, { rule: args[1], type: 'global' });
   }
 }
 

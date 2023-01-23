@@ -17,6 +17,21 @@ export async function run(hazel, core, hold, socket, data) {
     return;
   }
 
+  // 检查 CIDR
+  if (!socket.isAllowedIP) {
+    if (hold.checkCIDRchannelList.has(data.channel)) {
+      if (hold.checkCIDRchannelList.get(data.channel)) {
+        core.replyWarn('IP_NOT_ALLOWED', '## 訪問被拒絕\n\n非常抱歉，基於您的IP地址，您現在暫時不允許加入這個頻道。 您現在可以嘗試：\n\n一、十字街禁止某區域的使用通常是暫時性的，稍後再來這個聊天室。\n\n二、聯繫電郵： mail@henrize.kim 詢問可能的解封時間或將您暫時加入白名單的方法。\n\n現時十字街對IP的檢查和處理方法還不成熟，感謝您的耐心和支持。\n\n-----\n\n## Access Denied\n\nBased on your IP address, it is not allowed to join this channel right now. Please try again later.', socket);
+        return;
+      }
+    } else {
+      if (hold.checkCIDRglobal) {
+        core.replyWarn('IP_NOT_ALLOWED', '## 訪問被拒絕\n\n非常抱歉，基於您的IP地址，您現在暫時不允許加入這個頻道。 您現在可以嘗試：\n\n一、十字街禁止某區域的使用通常是暫時性的，稍後再來這個聊天室。\n\n二、聯繫電郵： mail@henrize.kim 詢問可能的解封時間或將您暫時加入白名單的方法。\n\n現時十字街對IP的檢查和處理方法還不成熟，感謝您的耐心和支持。\n\n-----\n\n## Access Denied\n\nBased on your IP address, it is not allowed to join this channel right now. Please try again later.', socket);
+        return;
+      }
+    }
+  }
+
   // 用户信息模板
   const userInfo = {
     nick: '',
