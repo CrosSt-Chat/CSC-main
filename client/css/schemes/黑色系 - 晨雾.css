@@ -1,0 +1,99 @@
+body {
+  background-image: linear-gradient(#070d10, #18313f);
+  background-attachment: fixed;
+  color: #dfe4e6bd;
+  font-family: Default_sans;
+}
+textarea {
+  color: #dfe4e6bd;
+  background-color: #fff1;
+  font-family: Default_sans;
+}
+blockquote {
+  border-left: 3px solid #d7e3ff9e;
+}
+hr {
+  border-top: 1px solid #d3e1ffb0;
+}
+mark {
+  background-color: #7778;
+  color: #ffffff;
+}
+/* code color scheme: rainbow */
+code {
+  color: #fffb;
+  background-color: transparent;
+  border: none;
+  font-family: Droid_sans_mono;
+}
+pre {
+  color: #fff2;
+  background-color: #fff2;
+  border: 1px solid #fff8;
+}
+button {
+  background-color: #fff1;
+  border: 1px solid #fffa;
+  color: #fffa;
+  font-family: Default_sans;
+}
+select {
+  color: #fffa;
+  background-color: #133;
+  border-color: #fff8;
+  font-family: Default_sans;
+}
+table > thead > tr > th {
+  border-bottom: 2px solid #fffa;
+}
+table > tbody > tr:nth-child(odd) > td, table > tbody > tr:nth-child(odd) > th {
+  background-color: #fff2;
+}
+table > thead > tr > th, table > tbody > tr > th, table > tfoot > tr > th, table > thead > tr > td, table > tbody > tr > td, table > tfoot > tr > td {
+  border-top: 1px solid #fff7;
+}
+
+.message {
+  border-left: 1px solid #fff8;
+}
+.refmessage {
+  border-left: 1px solid #fff8;
+}
+.nick {
+  color: #8fa1b3;
+}
+.trip {
+  color: #c8e5ff33;
+}
+.text a {
+  color: #ffffff;
+}
+.admin .nick {
+  color: #afffba7a;
+}
+.member .nick {
+  color: #dbfffe73;
+}
+.me .nick {
+  color: #d798cca1;
+}
+.info .nick,
+.info .text {
+  color: #7cff7682;
+}
+.warn .nick,
+.warn .text {
+  color: #ff0000;
+}
+#footer {
+  background: #fff1;
+}
+#sidebar {
+  color: #c7cfd5;
+  background-image: linear-gradient(#070d10a1, #18313fd1);
+  background-attachment: fixed;
+  border: 1px solid #fffb;
+}
+#chatform {
+  border-color: #ffffff;
+}

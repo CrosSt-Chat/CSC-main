@@ -1,0 +1,104 @@
+body {
+  background: #f0f2f6;
+  color: #7992ab;
+  font-family: Default_sans;
+}
+textarea {
+  color: #7992ab;
+  font-family: Default_sans;
+}
+blockquote {
+  background-color: #e3e6eb;
+  border-left: 3px solid #88929d;
+}
+hr {
+  border-top: 1px solid #969cb0;
+}
+mark {
+  background-color: #d4d9e0;
+  color: #6585a5;
+}
+/* code color scheme: xcode */
+code {
+  color: #3d4e60;
+  background-color: transparent;
+  border: none;
+  font-family: Droid_sans_mono;
+}
+pre {
+  background-color: #e0e3e9;
+  border: 3px solid #b3b6bb;
+}
+button {
+  background-color: #434b5a;
+  border: 2px solid #5a6578;
+  color: #dee9f1;
+  font-family: Default_sans;
+  transition: background 0.3s, border 0.3s;
+}
+button:hover {
+  background-color: #4f5a6c;
+}
+button:active {
+  border-color: #353c48
+}
+select {
+  color: #dee9f1;
+  background-color: #434b5a;
+  border: 1px solid #586275;
+  font-family: Default_sans
+}
+select:focus {
+  border: 1px solid #586275;
+}
+table > thead > tr > th {
+  border-bottom: 2px solid #82858d;
+}
+table > tbody > tr:nth-child(odd) > td, table > tbody > tr:nth-child(odd) > th {
+  background-color: #e1e3e7;
+}
+
+.message {
+  border-left: 2px solid #9097ab;
+}
+.refmessage {
+  border-left: 2px solid #9097ab;
+}
+.nick {
+  color: #8e9cab;
+}
+.trip {
+  color: #a8acba;
+}
+.text a {
+  color: #4679af;
+}
+.admin .nick {
+  color: #89b7a4;
+}
+.member .nick {
+  color: #7aadab;
+}
+.me .nick {
+  color: #ac86b8;
+}
+.info .nick,
+.info .text {
+  color: #56888f;
+}
+.warn .nick,
+.warn .text {
+  color: #c15858;
+}
+#footer {
+  background: transparent;
+}
+#sidebar {
+  color: #dee9f1;
+  background: #434b5a;
+  border-color: transparent;
+}
+#chatform {
+  background-color: #e0e6f378;
+  border: 2px solid #677397;
+}

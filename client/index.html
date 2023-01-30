@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>十字街聊天室</title>
+
+  <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+
+  <link rel="stylesheet" href="./css/style.css">
+  <link id="scheme-link" rel="stylesheet" href="./css/schemes/%E9%BB%91%E8%89%B2%E7%B3%BB%20-%20%E5%AF%92%E5%A4%9C.css">
+
+  <script src="./vendor/hljs/highlight.min.js"></script>
+  <link id="highlight-link" rel="stylesheet" href="./vendor/hljs/styles/rainbow.min.css">
+  <script src="./vendor/remarkable.min.js"></script>
+  <script src="./js/utility.js"></script>
+
+  <meta name="keywords" content="聊天室, 聊天, 匿名聊天, 纯文字聊天室, WebSocket, 即时聊天, 十字街, Henrize">
+  <meta name="description" content="十字街是一个简洁轻小的匿名聊天网站，可以方便地加入和创建聊天室，仅需一个昵称即可开始畅聊。聊天室内支持Markdown和LaTeX格式化，并拥有便于开发的API。">
+</head>
+
+<body>
+  <audio style="display: none" id="notify-sound" preload="auto" src="./audio/notify.mp3">
+    <source src="audio/notify.mp3" type="audio/ogg">
+  </audio>
+  <article class="container">
+    <div id="messages" class="messages"></div>
+  </article>
+  <footer id="footer">
+    <div class="container">
+      <form id="chatform" class="message">
+        <textarea id="chatinput" type="text" autocomplete="off" autofocus></textarea>
+      </form>
+    </div>
+  </footer>
+  <nav id="sidebar">
+    <div id="sidebar-content" class="hidden">
+      <h2><a href="/" target="_blank" rel="noopener noreferrer">十字街</a></h2>
+      <h5 id="version-text"></h5>
+      <p>一个简洁轻小的聊天网站</p>
+      <p>邮箱：<a href="mailto://mail@henrize.kim/">mail@henrize.kim</a></p>
+      <hr>
+      <h3>账号管理</h3>
+      <p>已登录的账号：</p>
+      <p id ="account-name"></p>
+      <p>
+        <input id="auto-login" type="checkbox">
+        <label for="auto-login">下次自动以此昵称登录</label> 
+      </p>
+      <p>
+        <button id="clear-account">清除账号信息</button>
+      </p>
+      <hr>
+      <h4>在线的用户</h4>
+      <p>（你可以点击下面的用户名邀请该用户到一个随机生成聊天室）</p>
+      <ul id="users"></ul>
+      <hr>
+      <h3>设置</h3>
+      <p>
+        <input id="pin-sidebar" type="checkbox">
+        <label for="pin-sidebar">侧边栏常开</label>
+      </p>
+      <p>
+        <input id="sound-switch" type="checkbox">
+        <label for="sound-switch">有人@我时播放提示音</label>
+      </p>
+      <p>
+        <input id="joined-left" type="checkbox" checked>
+        <label for="joined-left">用户加入和退出提醒</label>
+      </p>
+      <p>
+        <input id="syntax-highlight" type="checkbox" checked>
+        <label for="syntax-highlight">启用代码高光</label>
+      </p>
+      <p>
+        <input id="allow-imgur" type="checkbox" checked>
+        <label for="allow-imgur" title="">查看图片消息</label>
+      </p>
+      <p>
+        <input id="allow-html" type="checkbox">
+        <label for="allow-html" title="">查看 HTML 消息</label>
+      </p>
+      <p>
+        <h4>选择站点配色</h4>
+        <select id="scheme-selector"></select>
+      </p>
+      <p>
+        <h4>代码高光样式</h4>
+        <select id="highlight-selector"></select>
+      </p>
+      <p>
+        <button id="clear-messages">清空本页聊天记录</button>
+      </p>
+    </div>
+  </nav>
+  <script src="./js/sidebar.js"></script>
+  <script src="./js/chatarea.js"></script>
+  <script src="./js/client.js"></script>
+  <script>
+    if ( typeof clientName != 'string') {
+      location.href = './error-page';
+    }
+  </script>
+</body>
+
+</html> 
