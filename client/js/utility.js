@@ -1,11 +1,11 @@
 // WebSocket 连接地址
-// var wsAddress = 'ws://127.0.0.1:37408/';
-var wsAddress = 'wss://ws.crosst.chat:35197/';
+var wsAddress = 'ws://127.0.0.1:2764/';
+// var wsAddress = 'wss://ws.crosst.chat:35197/';
 
 // 客户端信息
 var clientName = '[十字街网页版](https://crosst.chat/)';
 var clientVersion = '20230100';
-var localStorageVersion = 1;
+var localStorageVersion = '1';
 
 // 连接信息
 var ws;
@@ -122,7 +122,7 @@ function localStorageSet(key, val) {
 }
 
 // 设置网站图标
-if ( window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   $('link[rel="icon"]').href = 'https://ws.crosst.chat:21563/icon/icon-light.ico';
 } else {
   $('link[rel="icon"]').href = 'https://ws.crosst.chat:21563/icon/icon-dark.ico';

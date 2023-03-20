@@ -1,4 +1,3 @@
-
 /* sidebar */
 
 $('#sidebar').onmouseenter = $('#sidebar').ontouchstart = function (e) {

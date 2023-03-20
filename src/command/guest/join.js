@@ -135,7 +135,7 @@ export async function run(hazel, core, hold, socket, data) {
     hold.channel.set(data.channel, {
       isLocked: false,
       lastActive: Date.now(),
-      socketList: new Set(),  
+      socketList: new Set(),
     });
   }
 
