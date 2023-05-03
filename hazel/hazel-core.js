@@ -34,10 +34,8 @@ export default class Hazel extends EventEmitter {
 
     console.log('√ Static function executed.');
 
-    this.emit('initialied');
+    this.emit('initialized');
     console.log('==' + this.mainConfig.projectName + ' Initialize Complete==');
-
-    return;
   }
 
   async reloadModules( forceReload ) {

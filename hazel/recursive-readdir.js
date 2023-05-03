@@ -1,25 +1,23 @@
-import { readdirSync } from 'fs';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
-function readDir( dir, pushedResult ) {
-  let dirResult = readdirSync( dir, { encoding: 'utf-8', withFileTypes: true });
+function readDir(baseDir, resultArray) {
+  let dirResult = readdirSync(
+    baseDir,
+    { encoding: 'utf-8', withFileTypes: true }
+  );
 
-  dirResult.forEach( value => {
-    if ( !value.isDirectory()) {
-      pushedResult.push( dir + '/' + value.name );
+  dirResult.forEach(value => {
+    if (!value.isDirectory()) {
+      resultArray.push(join(baseDir, value.name));
     } else {
-      pushedResult = readDir( dir + '/' + value.name, pushedResult );
+      resultArray = readDir(join(baseDir, value.name), resultArray);
     }
   });
 
-  return pushedResult;
+  return resultArray;
 }
 
-export default function recursiveReadDir( baseDir ) {
-  if ( typeof baseDir != 'string' ) {
-    throw new Error('The argument "baseDir" must be a string, received type ' + typeof baseDir );
-  } else if ( baseDir.endsWith('/')) {
-    baseDir = baseDir.slice( 0, baseDir.length - 1 );
-  }
-
-  return readDir( baseDir, []);
+export default function recursiveReadDir(baseDir) {
+  return readDir(baseDir, []);
 }

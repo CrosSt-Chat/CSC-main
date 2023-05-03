@@ -1,16 +1,22 @@
 import HazelCore from './hazel/hazel-core.js';
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
-let defaultConfigPath = import.meta.url.slice( 8, import.meta.url.lastIndexOf('/')) + '/config.json';
-if ( process.argv.includes('--config-path')) {
-  if ( typeof ( process.argv[ process.argv.indexOf('--config-path') + 1 ]) != 'undefined' ) {
-    defaultConfigPath = process.argv[ process.argv.indexOf('--config-path') + 1 ];
-  }
+let mainConfig = {};
+
+try {
+  mainConfig = JSON.parse(readFileSync(
+    './config.json',
+    { encoding: 'utf-8', flag: 'r' }
+  ));
+} catch (error) {
+  console.error('Failed to parse config.json.');
+  console.error(error);
+  process.exit(1);
 }
 
-const mainConfig = JSON.parse( readFileSync( defaultConfigPath, { encoding: 'utf-8', flag: 'r'}));
-
-mainConfig.baseDir = import.meta.url.slice( 8, import.meta.url.lastIndexOf('/'));
+mainConfig.baseDir = dirname(fileURLToPath(import.meta.url));
 
 const hazel = new HazelCore( mainConfig );
-hazel.initialize( process.argv.includes('--force'));
+await hazel.initialize(process.argv.includes('--force'));
