@@ -26,7 +26,7 @@ class CSCWebSocket extends WebSocket {
 
 export async function run(hazel, core, hold) {
   // 在服务器初始化完毕后，替换 ws 包中的 WebSocket 对象
-  hazel.on('initialied', () => {
+  hazel.on('initialized', () => {
     hold.wsServer.options.WebSocket = CSCWebSocket;
   });
 
