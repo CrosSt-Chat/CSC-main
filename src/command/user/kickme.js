@@ -7,31 +7,30 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 查找目标用户
-  let targetSockets = core.findSocket({ channel: socket.channel, nick: data.nick });
+  let targetSocket = core.findSocket({ channel: socket.channel, nick: data.nick });
 
   // 如果目标用户不存在
-  if (targetSockets.length < 1) {
+  if (targetSocket.length < 1) {
     core.replyWarn('USER_NOT_FOUND', '在这个聊天室找不到您指定的用户。', socket);
     return;
   }
 
-  // 记录是否操作成功
-  let operationSuccess = false;
+  // 按理说，目标用户只有一个
+  [targetSocket] = targetSocket;
 
-  // 遍历目标用户
-  for (let item of targetSockets) {
-    // 如果目标用户是的 IP 或者 Tripcode 与自己相同
-    if (item.remoteAddress == socket.remoteAddress || (item.trip == socket.trip && socket.trip.length == 6)) {
-      // 踢自己出去
-      core.replyInfo('KICKED_BY_SELF', '您已经被您自己断开连接，如果不是您自己执行的操作，请重新加入并通知管理员。', item);
-      core.replyInfo('KICKED', '已将 ' + item.nick + ' 断开连接。', socket, { nick: socket.nick });
-      item.terminate();
-      operationSuccess = true;
+  // 如果目标用户是的 IP 或者 tripcode 与自己相同
+  if ((() => {
+    if (targetSocket.remoteAddress === socket.remoteAddress) { return true; }
+    if (typeof targetSocket.trip == 'string' && typeof socket.trip == 'string') {
+      if ((socket.trip === targetSocket.trip) && socket.length === 6) { return true; }
     }
-  }
-
-  // 如果操作失败
-  if (!operationSuccess) {
+    return false;
+  })()) {
+    // 踢自己出去
+    core.replyInfo('KICKED_BY_SELF', '您已经被您自己断开连接，如果不是您自己执行的操作，请重新加入并通知管理员。', targetSocket);
+    core.replyInfo('KICKED', '已将 ' + targetSocket.nick + ' 断开连接。', socket, { nick: socket.nick });
+    targetSocket.terminate();
+  } else {
     core.replyWarn('KICKME_FAILED', '您指定的用户可能不是您自己。', socket);
   }
 
@@ -41,7 +40,7 @@ export async function run(hazel, core, hold, socket, data) {
 
 // 用户通过 /kickme nick 的方式执行命令
 export async function execByChat(hazel, core, hold, socket, line) {
-  let targetNick = line.substr(7).trim();
+  let targetNick = line.slice(8).trim();
 
   // 验证输入的昵称
   if (!core.verifyNickname(targetNick)) {
