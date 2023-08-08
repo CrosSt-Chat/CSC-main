@@ -14,7 +14,7 @@ export async function run(hazel, core, hold, socket, data) {
 
   // 检查识别码是否是成员，如果是则删除
   if (core.config.memberList.includes(data.trip)) {
-    core.removeFromList(core.config.memberList, data.trip);
+    core.removeFromArray(core.config.memberList, data.trip);
     return;
   }
 
