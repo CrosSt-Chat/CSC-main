@@ -1,20 +1,20 @@
 // 设置全站的 CIDR 检查规则
 export async function run(hazel, core, hold, socket, data) {
   // data.rule 应该是 'on' 或 'off'
-  if (data.rule != 'on' && data.rule != 'off') {
-    replyMalformedCommand(socket);
+  if (data.rule !== 'on' && data.rule !== 'off') {
+    core.replyMalformedCommand(socket);
     return;
   } 
 
   // data.type 应该是 'global' 或 'channel'
-  if (data.type != 'global' && data.type != 'channel') {
-    replyMalformedCommand(socket);
+  if (data.type !== 'global' && data.type !== 'channel') {
+    core.replyMalformedCommand(socket);
     return;
   }
 
   // 设置全站的 CIDR 检查规则
-  if (data.type == 'global') {
-    if (data.rule == 'on') {
+  if (data.type === 'global') {
+    if (data.rule === 'on') {
       hold.checkCIDRglobal = true;
       core.broadcastInfo('GLOBAL_CIDR_CHECK_ON', '全站已开启 CIDR 检查。', core.findSocketByLevel(core.config.level.member));
     } else {
@@ -24,8 +24,8 @@ export async function run(hazel, core, hold, socket, data) {
   }
 
   // 设置频道的 CIDR 检查规则
-  if (data.type == 'channel') {
-    if (data.rule == 'on') {
+  if (data.type === 'channel') {
+    if (data.rule === 'on') {
       hold.checkCIDRchannelList.set(socket.channel, true);
       core.broadcastInfo('CHANNEL_CIDR_CHECK_ON', socket.channel + ' 已开启 CIDR 检查。', core.findSocketByLevel(core.config.level.member), { channel: socket.channel });
     } else {

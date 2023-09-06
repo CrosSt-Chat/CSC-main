@@ -22,7 +22,7 @@ export async function run(hazel, core, hold, socket, data) {
   if ((() => {
     if (targetSocket.remoteAddress === socket.remoteAddress) { return true; }
     if (typeof targetSocket.trip == 'string' && typeof socket.trip == 'string') {
-      if ((socket.trip === targetSocket.trip) && socket.length === 6) { return true; }
+      if ((socket.trip === targetSocket.trip) && socket.trip.length === 6) { return true; }
     }
     return false;
   })()) {
