@@ -56,7 +56,7 @@ export async function run(hazel, core, hold, socket, data) {
       // 检查 key
       const hash = createHash('sha256');
       hash.update(data.trip + core.config.salts.auth, 'base64');
-      return hash.digest('base64').slice(0, 32) == data.key;
+      return hash.digest('base64').slice(0, 32) === data.key;
     })()) {
       // 如果验证失败，则返回错误信息
       core.reply({
@@ -104,22 +104,26 @@ export async function run(hazel, core, hold, socket, data) {
   let cName = 'null';
   if (typeof data.clientName == 'string') {
     // 最常用的十字街网页版直接通过，加快速度
-    if (data.clientName == '[十字街网页版](https://crosst.chat/)') {
+    if (data.clientName === '[十字街网页版](https://crosst.chat/)') {
       cName = data.clientName;
     } else {
       if ((() => {
         // 如果客户端名称中存在换行，直接返回 false
-        if (data.clientName.indexOf('\r') != -1 || data.clientName.indexOf('\n') != -1) { return false; }
+        if (data.clientName.indexOf('\r') !== -1 || data.clientName.indexOf('\n') !== -1) { return false; }
+
+        // 如果客户端名称超过 64 个字符，返回 false
+        if (data.clientName.length > 64) { return false; }
+
         // 如果客户端名称中含有暗示为官方客户端的关键字，则需要验证 key
-        let forbiddenName = ['十字街', '官方', '版'];
+        let forbiddenName = ['十字街', '官方'];
         for (let item of forbiddenName) {
-          if (data.clientName.indexOf(item) != -1) {
+          if (data.clientName.indexOf(item) !== -1) {
             // 如果 key 不合规，返回 false
             if (!/^[a-zA-Z0-9+/]{32}$/.test(data.clientKey)) { return false; }
             // 验证 key
             const hash = createHash('sha256');
             hash.update(data.clientName + core.config.salts.client);
-            return hash.digest('base64').slice(0, 32) == data.clientKey;
+            return hash.digest('base64').slice(0, 32) === data.clientKey;
           }
         }
         // 如果客户端名称中没有暗示为官方客户端的关键字，则不需要验证 key
@@ -160,7 +164,7 @@ export async function run(hazel, core, hold, socket, data) {
   // 检查用户昵称是否和其他用户重复
   let nickDuplicate = false;
   channelNicks.forEach((item) => {
-    if (item.toLowerCase() == data.nick.toLowerCase()) {
+    if (item.toLowerCase() === data.nick.toLowerCase()) {
       nickDuplicate = true;
     }
   });
